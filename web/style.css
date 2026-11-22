@@ -1,0 +1,452 @@
+:root {
+  color-scheme: light;
+  --page-plane: #f9f9f7;
+  --surface-1: #fcfcfb;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #898781;
+  --gridline: #e1e0d9;
+  --baseline: #c3c2b7;
+  --border: rgba(11, 11, 11, 0.1);
+  --series-1: #2a78d6; /* sequential base hue (blue) */
+  --series-2: #eb6834; /* categorical slot 2 (orange): "optimal" strategy accent */
+  --good: #0ca30c;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --page-plane: #0d0d0d;
+    --surface-1: #1a1a19;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #898781;
+    --gridline: #2c2c2a;
+    --baseline: #383835;
+    --border: rgba(255, 255, 255, 0.1);
+    --series-1: #3987e5;
+    --series-2: #d95926;
+    --good: #0ca30c;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --page-plane: #0d0d0d;
+  --surface-1: #1a1a19;
+  --text-primary: #ffffff;
+  --text-secondary: #c3c2b7;
+  --text-muted: #898781;
+  --gridline: #2c2c2a;
+  --baseline: #383835;
+  --border: rgba(255, 255, 255, 0.1);
+  --series-1: #3987e5;
+  --series-2: #d95926;
+  --good: #0ca30c;
+}
+
+/* Sequential ramp, light -> dark blue, one step per dice_remaining (1..6) */
+:root {
+  --seq-1: #cde2fb;
+  --seq-2: #9ec5f4;
+  --seq-3: #6da7ec;
+  --seq-4: #3987e5;
+  --seq-5: #256abf;
+  --seq-6: #184f95;
+}
+:root[data-theme="dark"],
+:root:where(:not([data-theme="light"])) {
+  --seq-1: #9ec5f4;
+  --seq-2: #6da7ec;
+  --seq-3: #3987e5;
+  --seq-4: #256abf;
+  --seq-5: #1c5cab;
+  --seq-6: #104281;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--page-plane);
+  color: var(--text-primary);
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+.page {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 32px 24px 64px;
+}
+
+.page-header h1 {
+  margin: 0 0 8px;
+  font-size: 2rem;
+}
+
+.subtitle {
+  margin: 0 0 4px;
+  color: var(--text-secondary);
+  max-width: 68ch;
+}
+
+.methodology-line {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+}
+
+.section {
+  margin-top: 48px;
+}
+
+.section h2 {
+  margin: 0 0 6px;
+  font-size: 1.25rem;
+}
+
+.section-note {
+  margin: 0 0 18px;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  max-width: 72ch;
+}
+
+/* Stat tiles */
+.stat-tiles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.stat-tile {
+  flex: 1 1 200px;
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 18px;
+}
+
+.stat-tile.is-best {
+  border-color: var(--series-2);
+  box-shadow: 0 0 0 1px var(--series-2);
+}
+
+.stat-tile .label {
+  display: block;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  margin-bottom: 6px;
+}
+
+.stat-tile .value {
+  font-size: 1.7rem;
+  font-weight: 600;
+}
+
+.stat-tile .delta {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.stat-tile.is-best .delta {
+  color: var(--good);
+}
+
+/* Table */
+.table-wrap {
+  overflow-x: auto;
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.data-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.88rem;
+}
+
+.data-table caption {
+  caption-side: top;
+  text-align: left;
+  padding: 10px 14px 0;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+}
+
+.data-table th,
+.data-table td {
+  padding: 9px 14px;
+  text-align: right;
+  border-bottom: 1px solid var(--gridline);
+  font-variant-numeric: tabular-nums;
+}
+
+.data-table th:first-child,
+.data-table td:first-child {
+  text-align: left;
+  font-variant-numeric: normal;
+}
+
+.data-table thead th {
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  border-bottom: 1px solid var(--baseline);
+}
+
+.data-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Chart grid (small multiples) */
+.chart-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.chart-card {
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px 10px;
+}
+
+.chart-card .chart-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 4px;
+}
+
+.chart-card .chart-title .name {
+  font-weight: 600;
+  font-size: 0.92rem;
+}
+
+.chart-card .chart-title .threshold-badge {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+
+.chart-legend {
+  display: flex;
+  gap: 16px;
+  font-size: 0.76rem;
+  color: var(--text-secondary);
+  margin-bottom: 2px;
+}
+
+.chart-legend .key {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.chart-legend .key::before {
+  content: "";
+  display: inline-block;
+  width: 14px;
+  height: 2px;
+  background: currentColor;
+}
+
+.chart-legend .key.bank {
+  color: var(--baseline);
+}
+
+.chart-legend .key.bank::before {
+  background-image: linear-gradient(to right, var(--baseline) 60%, transparent 0%);
+  background-size: 6px 2px;
+  background-color: transparent;
+}
+
+svg.chart {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.axis-label {
+  fill: var(--text-muted);
+  font-size: 9px;
+}
+
+.gridline {
+  stroke: var(--gridline);
+  stroke-width: 1;
+}
+
+.baseline-axis {
+  stroke: var(--baseline);
+  stroke-width: 1;
+}
+
+.line-bank {
+  fill: none;
+  stroke: var(--baseline);
+  stroke-width: 2;
+  stroke-dasharray: 5 4;
+}
+
+.line-reroll {
+  fill: none;
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.threshold-marker {
+  stroke: var(--text-muted);
+  stroke-width: 1;
+  stroke-dasharray: 2 3;
+}
+
+.crosshair-line {
+  stroke: var(--text-muted);
+  stroke-width: 1;
+  pointer-events: none;
+}
+
+.hover-dot {
+  pointer-events: none;
+}
+
+.hit-rect {
+  fill: transparent;
+}
+
+/* Tooltip */
+.tooltip {
+  position: fixed;
+  pointer-events: none;
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 0.8rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  z-index: 100;
+  min-width: 140px;
+}
+
+.tooltip[hidden] {
+  display: none;
+}
+
+.tooltip .tt-title {
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+
+.tooltip .tt-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.tooltip .tt-row .tt-key {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--text-secondary);
+}
+
+.tooltip .tt-row .tt-key::before {
+  content: "";
+  display: inline-block;
+  width: 10px;
+  height: 2px;
+  background: currentColor;
+}
+
+.tooltip .tt-row .tt-value {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Strategy bar chart (built as simple HTML bars, not SVG) */
+.bar-chart {
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.bar-row {
+  display: grid;
+  grid-template-columns: 160px 1fr 70px;
+  align-items: center;
+  gap: 12px;
+}
+
+.bar-row .bar-name {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+}
+
+.bar-row.is-best .bar-name {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.bar-track {
+  height: 18px;
+  background: var(--page-plane);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  background: var(--series-1);
+  border-radius: 4px 0 0 4px;
+}
+
+.bar-row.is-best .bar-fill {
+  background: var(--series-2);
+}
+
+.bar-value {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.88rem;
+}
+
+.table-toggle {
+  margin-top: 14px;
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.table-toggle:hover {
+  border-color: var(--text-muted);
+}
+
+.page-footer {
+  margin-top: 56px;
+  padding-top: 16px;
+  border-top: 1px solid var(--gridline);
+  color: var(--text-muted);
+  font-size: 0.82rem;
+}
+
+.page-footer a {
+  color: var(--text-secondary);
+}

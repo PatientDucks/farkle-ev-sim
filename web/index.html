@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Farkle EV Simulator</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="page">
+      <header class="page-header">
+        <h1>Farkle EV Simulator</h1>
+        <p class="subtitle">
+          Monte Carlo analysis of the reroll-vs-bank decision: for each dice-remaining
+          state, when does continuing stop being worth the bust risk?
+        </p>
+        <p class="methodology-line" data-field="methodology-line"></p>
+      </header>
+
+      <section class="section">
+        <h2>Strategy comparison</h2>
+        <p class="section-note">Mean points per turn under three strategies, each estimated from hundreds of thousands of simulated turns.</p>
+        <div class="stat-tiles" data-field="strategy-tiles"></div>
+      </section>
+
+      <section class="section">
+        <h2>Optimal bank thresholds</h2>
+        <p class="section-note">
+          Bank once your turn score reaches this value; below it, the simulation says rerolling has higher EV.
+          Bust probability and expected score per roll are computed exactly (full enumeration), not simulated.
+        </p>
+        <div class="table-wrap">
+          <table class="data-table" data-field="thresholds-table"></table>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Reroll EV vs. bank EV, by dice remaining</h2>
+        <p class="section-note">
+          Each chart's dashed line is the value of banking right now (always equal to your turn score).
+          The solid line is the simulated EV of rerolling instead. Where solid rises above dashed, rerolling
+          wins; the crossover marks the optimal threshold.
+        </p>
+        <div class="chart-grid" data-field="ev-charts"></div>
+        <button type="button" class="table-toggle" data-field="toggle-ev-table">Show data table</button>
+        <div class="table-wrap" data-field="ev-table-wrap" hidden>
+          <table class="data-table" data-field="ev-table"></table>
+        </div>
+      </section>
+
+      <footer class="page-footer">
+        <p>
+          Ruleset, methodology, and how to regenerate this data are documented in the
+          <a href="https://github.com/PatientDucks/farkle-ev-sim#readme">project README</a>.
+        </p>
+      </footer>
+    </main>
+
+    <div class="tooltip" data-field="tooltip" hidden></div>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
