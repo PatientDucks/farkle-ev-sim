@@ -58,21 +58,26 @@ below it, reroll; above it, bank. The project finds that threshold two ways:
 are always locked in full if rolled. But Farkle also lets you set aside
 *fewer* than all your loose 1s/5s on a given roll, rerolling the declined
 ones along with the non-scoring dice instead of banking their points. That's
-a real decision, modeled in `farkle/policy.py` via `ThresholdPolicy.resolve_roll`
-and tested the same way as the main thresholds: optimize a hold-back policy
-via Monte Carlo, then compare it against always taking the maximum score. See
+a real decision, modeled in `farkle/policy.py` via `ThresholdPolicy.resolve_roll`.
+`farkle/holdback.py` enumerates every reachable (dice remaining, loose 1s,
+loose 5s) state with no forced group present, 38 of them, and sweeps every
+possible lock count at each one via Monte Carlo to find the best. The
+resulting table and the six bank thresholds are then refined together: each
+depends on the other, so `export_web.py` alternates optimizing the
+thresholds against the current table and rebuilding the table against the
+current thresholds until both stop moving. See
 [Results](#results-standard-ruleset) for what that found.
 
 ## Results (standard ruleset)
 
 | Dice remaining | Bank at score >= | Bust probability (exact) | Expected score/roll (exact) |
 |---|---|---|---|
-| 1 | 302 | 66.67% | 25.0 |
-| 2 | 246 | 44.44% | 50.0 |
-| 3 | 413 | 27.78% | 86.8 |
-| 4 | 1,011 | 15.74% | 143.5 |
-| 5 | 3,127 | 7.72% | 225.8 |
-| 6 (hot dice) | 17,188 | 2.31% | 420.3 |
+| 1 | 300 | 66.67% | 25.0 |
+| 2 | 241 | 44.44% | 50.0 |
+| 3 | 414 | 27.78% | 86.8 |
+| 4 | 977 | 15.74% | 143.5 |
+| 5 | 2,615 | 7.72% | 225.8 |
+| 6 (hot dice) | 16,824 | 2.31% | 420.3 |
 
 A few things worth noting:
 
@@ -81,8 +86,8 @@ A few things worth noting:
   thousands before banking beats rerolling. Practically, "always continue
   on hot dice" (the common strategy-guide advice) holds almost everywhere a
   real game actually reaches.
-- **Two dice is a worse spot than one.** The threshold for *d*=2 (246) is
-  *lower* than for *d*=1 (302), despite *d*=2 having a lower bust
+- **Two dice is a worse spot than one.** The threshold for *d*=2 (241) is
+  *lower* than for *d*=1 (300), despite *d*=2 having a lower bust
   probability. With one die, scoring *always* means hot dice (a fresh six).
   With two dice, only ~11% of scoring outcomes are hot dice; the rest
   (~44% of all outcomes) score partially and drop you into the much
@@ -92,51 +97,73 @@ A few things worth noting:
 
 ### Which dice to save when rerolling
 
-On a **fresh six-dice roll** (the start of a turn, or right after hot dice),
-if the only scoring dice are loose 1s and 5s with no 3-of-a-kind or better,
-the EV-optimal play is to lock just your single most valuable loose die and
-decline the rest, rerolling them along with the non-scoring dice. Tested
-directly for every possible loose-singles count on a six-dice roll with no
-forced group (1 through 4):
+3+-of-a-kind groups are always locked in full. But on any roll where the only
+scoring dice are loose 1s and 5s, with no group and no special combo, the
+player can lock fewer than all of them, rerolling the declined dice along
+with whatever didn't score. `farkle/holdback.py` enumerates every reachable
+(dice remaining, loose 1s, loose 5s) state where this choice exists, 38 of
+them across all six dice-remaining counts, and sweeps every lock count at
+each one via Monte Carlo to find the best.
 
-| Loose singles rolled | Lock everything | Lock just 1, decline the rest |
-|---|---|---|
-| 1 | n/a (no choice) | 386 |
-| 2 (e.g. two 1s) | 345 | 386 |
-| 3 | 294-308 | 385-386 |
-| 4 (two 1s, two 5s) | 300 | 385 |
+Hold-back changes the right play in 12 of those 38 states. Every other state
+(26 of 38) should just lock everything rolled, no exceptions:
 
-("Value" above is the simulated EV of optimal play from that point, in
-points, not the raw locked score; it already accounts for everything that
-happens for the rest of the turn.) Locking just one die wins by a wide
-margin in every case, because dice_remaining=5 sits in an unusually safe
-part of the bust-probability curve (7.7%, barely more than six dice's 2.3%)
-compared to dice_remaining=4, 3, or 2 (15.7%, 27.8%, 44.4%). Giving up 100 or
-200 guaranteed points to stay at 5 dice instead of 2-4 is a good trade.
+| Dice remaining | Loose 1s | Loose 5s | Lock | Decline |
+|---|---|---|---|---|
+| 4 | 1 | 1 | 1 | 1 |
+| 5 | 0 | 2 | 1 | 1 |
+| 5 | 1 | 1 | 1 | 1 |
+| 5 | 1 | 2 | 1 | 2 |
+| 5 | 2 | 0 | 1 | 1 |
+| 5 | 2 | 1 | 1 | 2 |
+| 6 | 0 | 2 | 1 | 1 |
+| 6 | 1 | 1 | 1 | 1 |
+| 6 | 1 | 2 | 1 | 2 |
+| 6 | 2 | 0 | 1 | 1 |
+| 6 | 2 | 1 | 1 | 2 |
+| 6 | 2 | 2 | 1 | 3 |
 
-End to end, this is a **6.4% improvement in points per turn** over always
+The pattern: at dice_remaining 5 and 6, locking down to just your single most
+valuable loose die and declining the rest is almost always right, because
+landing at dice_remaining=4 or 5 after the reroll sits in an unusually safe
+part of the bust-probability curve (15.7% and 7.7%) compared to staying at
+dice_remaining 1-3 (66.7%, 44.4%, 27.8%). Giving up 100-200 guaranteed points
+to land in that safer spot is a good trade almost everywhere this choice
+comes up.
+
+The one case that breaks the pattern is the most revealing result in the
+whole table: at dice_remaining=5 with 2 loose 1s and 2 loose 5s (300
+guaranteed points on the table), locking all 4 wins, while the identical
+loose composition at dice_remaining=6 still prefers holding back to 1. The
+difference is what each state falls back to if it goes wrong. At
+dice_remaining=1, busting or hitting hot dice are the only two outcomes;
+that "clean" all-or-nothing shape makes landing there less bad than its raw
+66.7% bust probability suggests. At dice_remaining=5, there just isn't
+enough guaranteed score on the table (300 points) to make trading it away
+for that safety worth it. At dice_remaining=6, locking down to 1 instead
+lands you at dice_remaining=5, a far safer spot than dice_remaining=1, so
+the same trade is worth it there.
+
+End to end, this is an **8.1% improvement in points per turn** over always
 taking the maximum score:
 
 | Strategy | Points/turn | vs. optimal |
 |---|---|---|
-| Optimal (six-roll hold-back, thresholds above) | 579 | baseline |
-| Always take max (no hold-back) | 544 | -6.0% |
-| Naive uniform hold-back (decline whenever few dice remain, at any roll size) | 529 | -8.6% |
-| Flat threshold of 300, regardless of dice remaining | 489 | -15.6% |
-| Bank after the very first scoring roll | 421 | -27.3% |
+| Optimal (full table, thresholds above) | 586.2 | baseline |
+| Six-roll hold-back only (lock 1, fresh six dice only) | 581.5 | -0.8% |
+| Always take max (no hold-back) | 542.1 | -7.5% |
+| Naive uniform hold-back (decline whenever few dice remain, at any roll size) | 536.2 | -8.5% |
+| Flat threshold of 300, regardless of dice remaining | 488.9 | -16.6% |
+| Bank after the very first scoring roll | 421.4 | -28.1% |
 
-**This is specific to the fresh-six-dice case and does not generalize.**
-Tested the same way on smaller rerolls (after some dice are already locked
-away elsewhere in the turn), the result flips: sometimes locking more wins,
-sometimes locking less does, state by state, because the available
-dice-remaining options no longer span that same cheap 5-vs-smaller gap in
-bust probability. An earlier version of this project tested a naive version
-of hold-back that applied uniformly to every roll size and found it was
-*always* worse than taking the max ("Naive uniform hold-back" above). That
-conclusion was correct for the general case, but wrong as a blanket rule:
-it missed this specific, large exception. Extending the hold-back decision
-properly to every dice-remaining state is a natural next step, not
-implemented here.
+Two earlier, narrower versions of this analysis are kept in the table above
+for comparison. A naive hold-back rule applied uniformly to every roll size
+was tested first and found to be *always* worse than taking the max; that
+conclusion was correct for a uniform rule but wrong as a blanket statement
+about hold-back in general, since it missed the fresh-six-dice case
+entirely. A second pass modeled hold-back correctly, but only for fresh
+six-dice rolls, missing the dice_remaining=4 and 5 states covered above. The
+full table in this section supersedes both.
 
 ## Running it
 
@@ -159,10 +186,12 @@ farkle/
 ├── policy.py      ThresholdPolicy: reroll-vs-bank thresholds, plus which dice to save on reroll
 ├── simulate.py     Monte Carlo turn simulation under a given policy
 ├── optimize.py      binary-search threshold finder (the "optimizer")
-└── stats.py           exact bust probability / expected score via full enumeration
+├── holdback.py         builds the full which-dice-to-save table, state by state
+└── stats.py               exact bust probability / expected score via full enumeration
 tests/
 ├── test_rules.py        scoring-engine unit tests
-└── test_policy.py        unit tests for the which-dice-to-save decision
+├── test_policy.py        unit tests for the which-dice-to-save decision
+└── test_holdback.py       unit tests for the reachable-state enumeration
 export_web.py               runs everything, writes web/data.js
 web/
 ├── index.html                 the visualization page
@@ -173,12 +202,12 @@ web/
 
 ## Scope & known simplifications
 
-- **The which-dice-to-save decision only covers the fresh-six-dice,
-  loose-singles-only case.** It does not cover: declining a loose single
-  when a 3+-of-a-kind group is also present in the same roll, declining on
-  a reroll smaller than six dice, or breaking up an already-formed group
-  to decline part of it. Each of those is a plausible further extension;
-  none are modeled here.
+- **The which-dice-to-save decision only covers loose-singles-only rolls.**
+  Every reachable (dice remaining, loose 1s, loose 5s) state with no forced
+  group present is covered by the full table above. It does not cover
+  declining a loose single when a 3+-of-a-kind group is also rolled on the
+  same turn, or breaking up an already-formed group to decline part of it.
+  Each of those is a plausible further extension, not modeled here.
 - **Entry threshold (500) and the 10,000-point win condition are not
   modeled.** The optimizer treats every banked point as equally valuable,
   which is the right objective for "maximize expected points per turn in

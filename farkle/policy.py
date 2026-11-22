@@ -11,7 +11,7 @@ best threshold per dice_remaining via Monte Carlo evaluation.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from .rules import RollDecomposition
 
@@ -21,23 +21,29 @@ class ThresholdPolicy:
     # Indexed by dice_remaining (1..6). Reroll while turn_score < thresholds[dice_remaining].
     thresholds: dict[int, int]
 
-    # 3+-of-a-kind groups and special combos are always locked in full if rolled
-    # (see RollDecomposition). Loose 1s and 5s are the real choice: lock them all
-    # (the default, hold_back_target=0), or decline the cheapest ones to keep
-    # dice_remaining at least this high, betting on a safer next roll instead of
-    # the guaranteed points. At least one scoring die is always locked if the
-    # roll scored anything at all, and this never declines a die that would
-    # have completed hot dice -- giving up a fresh six-dice reroll to hit an
-    # arbitrary dice-remaining target is never sensible.
-    hold_back_target: int = 0
+    # The full, per-state answer to "how many loose dice to lock in": keyed by
+    # (total_dice_this_roll, loose_ones, loose_fives), value = how many to lock
+    # (locking 1s before 5s). Only consulted when nothing formed a 3+-of-a-kind
+    # group this roll (see RollDecomposition). Built by holdback.py, which
+    # evaluates every reachable state directly rather than applying one rule
+    # everywhere; see README for why the right answer varies by state. States
+    # not present in the table fall back to the simpler mechanisms below, so a
+    # partially-filled table (or none at all) still behaves sensibly.
+    hold_back_table: dict[tuple[int, int, int], int] = field(default_factory=dict)
 
-    # A narrower, separately-tunable version of the same idea, scoped to
-    # exactly one scenario: the roll is a full six dice (the start of a turn,
-    # or right after hot dice), nothing formed a 3+-of-a-kind group, and the
-    # loose 1s/5s count is small. In that specific case, lock only the single
-    # most valuable loose die and decline the rest, trading their guaranteed
-    # points for more dice in the pool on the very next roll. 0 disables it.
+    # A narrower, hand-written version of the same idea, scoped to exactly one
+    # scenario: the roll is a full six dice (the start of a turn, or right
+    # after hot dice), nothing formed a group, and the loose 1s/5s count is at
+    # most this. In that case, lock only the single most valuable loose die.
+    # Superseded by hold_back_table when a state is present there; kept as a
+    # fallback and as its own comparison point in the strategy table. 0 disables it.
     six_roll_hold_back_max_loose: int = 0
+
+    # The simplest, naive version: decline the cheapest loose dice whenever
+    # locking everything would leave fewer than this many dice behind, at any
+    # roll size. Kept only as a "what if you did this everywhere" baseline for
+    # comparison; see README for why it's worse than the two options above.
+    hold_back_target: int = 0
 
     def should_reroll(self, turn_score: int, dice_remaining: int) -> bool:
         return turn_score < self.thresholds[dice_remaining]
@@ -49,18 +55,18 @@ class ThresholdPolicy:
         if d.is_farkle:
             return 0, 0
 
-        dice_remaining_if_all_locked = total_dice - d.forced_dice_used - d.loose_ones - d.loose_fives
         loose_total = d.loose_ones + d.loose_fives
+        dice_remaining_if_all_locked = total_dice - d.forced_dice_used - loose_total
         max_declinable = loose_total - 1 if d.forced_dice_used == 0 else loose_total
 
         decline = 0
-        if dice_remaining_if_all_locked > 0:
+        if dice_remaining_if_all_locked > 0 and d.forced_dice_used == 0 and loose_total > 0:
             # Never decline a die that would otherwise complete hot dice.
-            if (
-                total_dice == 6
-                and d.forced_dice_used == 0
-                and 0 < loose_total <= self.six_roll_hold_back_max_loose
-            ):
+            key = (total_dice, d.loose_ones, d.loose_fives)
+            if key in self.hold_back_table:
+                lock_count = max(1, min(loose_total, self.hold_back_table[key]))
+                decline = loose_total - lock_count
+            elif total_dice == 6 and loose_total <= self.six_roll_hold_back_max_loose:
                 decline = max_declinable  # keep only the single most valuable loose die
             else:
                 wanted_decline = max(0, self.hold_back_target - dice_remaining_if_all_locked)

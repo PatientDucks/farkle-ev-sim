@@ -30,6 +30,7 @@ BISECTION_ITERS = 22
 def _find_threshold(
     dice_remaining: int,
     base_thresholds: dict[int, int],
+    hold_back_table: dict[tuple[int, int, int], int],
     hold_back_target: int,
     six_roll_hold_back_max_loose: int,
     n_trials: int,
@@ -43,6 +44,7 @@ def _find_threshold(
         trial_thresholds[dice_remaining] = int(round(mid))
         policy = ThresholdPolicy(
             trial_thresholds,
+            hold_back_table=hold_back_table,
             hold_back_target=hold_back_target,
             six_roll_hold_back_max_loose=six_roll_hold_back_max_loose,
         )
@@ -59,10 +61,13 @@ def optimize_thresholds(
     rounds: int = 5,
     seed: int = 42,
     max_workers: int | None = None,
+    base_thresholds: dict[int, int] | None = None,
+    hold_back_table: dict[tuple[int, int, int], int] | None = None,
     hold_back_target: int = 0,
     six_roll_hold_back_max_loose: int = 0,
 ) -> ThresholdPolicy:
-    thresholds = dict(DEFAULT_POLICY.thresholds)
+    thresholds = dict(base_thresholds) if base_thresholds else dict(DEFAULT_POLICY.thresholds)
+    hold_back_table = hold_back_table or {}
 
     with ProcessPoolExecutor(max_workers=max_workers) as executor:
         for round_i in range(rounds):
@@ -71,6 +76,7 @@ def optimize_thresholds(
                     _find_threshold,
                     d,
                     thresholds,
+                    hold_back_table,
                     hold_back_target,
                     six_roll_hold_back_max_loose,
                     n_trials,
@@ -81,5 +87,8 @@ def optimize_thresholds(
             thresholds = {d: int(round(job.result())) for d, job in jobs.items()}
 
     return ThresholdPolicy(
-        thresholds, hold_back_target=hold_back_target, six_roll_hold_back_max_loose=six_roll_hold_back_max_loose
+        thresholds,
+        hold_back_table=hold_back_table,
+        hold_back_target=hold_back_target,
+        six_roll_hold_back_max_loose=six_roll_hold_back_max_loose,
     )

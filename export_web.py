@@ -1,7 +1,7 @@
 """Runs the full analysis and writes web/data.js for the visualization page.
 
 Usage:
-    python export_web.py                # full precision (takes ~1-2 minutes)
+    python export_web.py                # full precision (takes ~4-5 min)
     python export_web.py --fast          # lower trial counts, for quick iteration
 """
 
@@ -14,6 +14,7 @@ import time
 from concurrent.futures import ProcessPoolExecutor
 from pathlib import Path
 
+from farkle.holdback import optimize_full_policy
 from farkle.optimize import optimize_thresholds
 from farkle.policy import ThresholdPolicy
 from farkle.simulate import ev_of_reroll_with_stderr, mean_turn_score
@@ -22,18 +23,15 @@ from farkle.stats import bust_probability, expected_score_per_roll
 GRID_MAX_SCORE = 4000
 GRID_STEP = 100
 
-# The optimal policy locks only its single most valuable loose die on a fresh
-# six-dice roll (whether at the start of a turn or after hot dice) when there's
-# no 3+-of-a-kind group to go with it, up to this many loose 1s/5s -- see
-# README for how this was found and why it doesn't generalize to smaller
-# reroll sizes. 4 is the max achievable loose-singles count on a six-dice
-# roll with no forced group, so this covers every case it applies to.
+# Kept only as an intermediate comparison point: locks just the single most
+# valuable loose die on a fresh six-dice roll, but (unlike the full table)
+# doesn't address smaller reroll sizes at all. See README.
 SIX_ROLL_HOLD_BACK_MAX_LOOSE = 4
 
 
-def _grid_point(args: tuple[int, int, dict[int, int], int, int, int]) -> dict:
-    dice_remaining, turn_score, thresholds, six_roll_hold_back_max_loose, n_trials, seed = args
-    policy = ThresholdPolicy(thresholds, six_roll_hold_back_max_loose=six_roll_hold_back_max_loose)
+def _grid_point(args: tuple[int, int, dict[int, int], dict, int, int]) -> dict:
+    dice_remaining, turn_score, thresholds, hold_back_table, n_trials, seed = args
+    policy = ThresholdPolicy(thresholds, hold_back_table=hold_back_table)
     rng = random.Random(seed)
     ev_reroll, stderr = ev_of_reroll_with_stderr(turn_score, dice_remaining, policy, n_trials, rng)
     return {
@@ -51,7 +49,7 @@ def build_decision_grid(policy: ThresholdPolicy, n_trials: int, executor: Proces
     seed = 1000
     for dice_remaining in range(1, 7):
         for turn_score in range(0, GRID_MAX_SCORE + 1, GRID_STEP):
-            jobs.append((dice_remaining, turn_score, policy.thresholds, policy.six_roll_hold_back_max_loose, n_trials, seed))
+            jobs.append((dice_remaining, turn_score, policy.thresholds, policy.hold_back_table, n_trials, seed))
             seed += 1
     return list(executor.map(_grid_point, jobs))
 
@@ -67,26 +65,52 @@ def build_exact_stats() -> list[dict]:
     ]
 
 
+def hold_back_table_to_json(table: dict[tuple[int, int, int], int]) -> list[dict]:
+    rows = []
+    for (total_dice, ones, fives), lock_count in sorted(table.items()):
+        loose_total = ones + fives
+        rows.append(
+            {
+                "totalDice": total_dice,
+                "looseOnes": ones,
+                "looseFives": fives,
+                "looseTotal": loose_total,
+                "lockCount": lock_count,
+                "holdsBack": lock_count < loose_total,
+            }
+        )
+    return rows
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--fast", action="store_true", help="Lower trial counts for quick iteration")
     args = parser.parse_args()
 
-    optimize_trials = 8_000 if args.fast else 50_000
-    optimize_rounds = 3 if args.fast else 6
+    threshold_trials = 5_000 if args.fast else 50_000
+    threshold_rounds = 2 if args.fast else 6
+    table_trials = 5_000 if args.fast else 80_000
+    outer_rounds = 1 if args.fast else 3
     grid_trials = 1_000 if args.fast else 6_000
     summary_trials = 20_000 if args.fast else 400_000
 
     t0 = time.time()
-    print(f"Optimizing the main policy ({optimize_trials:,} trials/eval, {optimize_rounds} rounds)...")
-    policy = optimize_thresholds(
-        n_trials=optimize_trials, rounds=optimize_rounds, six_roll_hold_back_max_loose=SIX_ROLL_HOLD_BACK_MAX_LOOSE
+    print("Optimizing the full policy (bank thresholds + which-dice-to-save table)...")
+    policy = optimize_full_policy(
+        threshold_trials=threshold_trials,
+        threshold_rounds=threshold_rounds,
+        table_trials=table_trials,
+        outer_rounds=outer_rounds,
     )
     print(f"  thresholds: {policy.thresholds}  ({time.time() - t0:.1f}s)")
+    print(f"  table entries: {len(policy.hold_back_table)}")
 
     print("Optimizing comparison baselines...")
-    always_max_policy = optimize_thresholds(n_trials=optimize_trials, rounds=optimize_rounds)
-    naive_hold_back_policy = optimize_thresholds(n_trials=optimize_trials, rounds=optimize_rounds, hold_back_target=2)
+    always_max_policy = optimize_thresholds(n_trials=threshold_trials, rounds=threshold_rounds)
+    six_roll_only_policy = optimize_thresholds(
+        n_trials=threshold_trials, rounds=threshold_rounds, six_roll_hold_back_max_loose=SIX_ROLL_HOLD_BACK_MAX_LOOSE
+    )
+    naive_hold_back_policy = optimize_thresholds(n_trials=threshold_trials, rounds=threshold_rounds, hold_back_target=2)
     print(f"  done ({time.time() - t0:.1f}s)")
 
     with ProcessPoolExecutor() as executor:
@@ -98,7 +122,8 @@ def main() -> None:
         t2 = time.time()
         print(f"Comparing strategies ({summary_trials:,} trials each)...")
         strategy_policies = {
-            "Optimal (six-roll hold-back)": policy,
+            "Optimal (full table)": policy,
+            "Six-roll hold-back only": six_roll_only_policy,
             "Always take max (no hold-back)": always_max_policy,
             "Flat threshold 300": ThresholdPolicy({d: 300 for d in range(1, 7)}),
             "Bank ASAP (threshold 1)": ThresholdPolicy({d: 1 for d in range(1, 7)}),
@@ -115,13 +140,15 @@ def main() -> None:
 
     data = {
         "generatedAtTrials": {
-            "optimizeTrials": optimize_trials,
-            "optimizeRounds": optimize_rounds,
+            "thresholdTrials": threshold_trials,
+            "thresholdRounds": threshold_rounds,
+            "tableTrials": table_trials,
+            "outerRounds": outer_rounds,
             "gridTrials": grid_trials,
             "summaryTrials": summary_trials,
         },
         "optimalThresholds": policy.as_dict(),
-        "sixRollHoldBackMaxLoose": policy.six_roll_hold_back_max_loose,
+        "holdBackTable": hold_back_table_to_json(policy.hold_back_table),
         "exactStats": exact_stats,
         "decisionGrid": grid,
         "strategyComparison": strategy_results,

@@ -60,6 +60,20 @@ def ev_of_reroll(
     return total / n_trials
 
 
+def state_value(
+    turn_score: int,
+    dice_remaining: int,
+    policy: ThresholdPolicy,
+    n_trials: int,
+    rng: random.Random,
+) -> float:
+    """EV of optimal play from (turn_score, dice_remaining) under `policy`:
+    bank now if the policy says to, otherwise the EV of rerolling."""
+    if not policy.should_reroll(turn_score, dice_remaining):
+        return turn_score
+    return ev_of_reroll(turn_score, dice_remaining, policy, n_trials, rng)
+
+
 def ev_of_reroll_with_stderr(
     turn_score: int,
     dice_remaining: int,

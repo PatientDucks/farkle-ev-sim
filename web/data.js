@@ -1,19 +1,326 @@
 window.FARKLE_DATA = {
   "generatedAtTrials": {
-    "optimizeTrials": 50000,
-    "optimizeRounds": 6,
+    "thresholdTrials": 50000,
+    "thresholdRounds": 6,
+    "tableTrials": 80000,
+    "outerRounds": 3,
     "gridTrials": 6000,
     "summaryTrials": 400000
   },
   "optimalThresholds": {
-    "1": 302,
-    "2": 246,
-    "3": 413,
-    "4": 1011,
-    "5": 3127,
-    "6": 17188
+    "1": 300,
+    "2": 241,
+    "3": 414,
+    "4": 977,
+    "5": 2615,
+    "6": 16824
   },
-  "sixRollHoldBackMaxLoose": 4,
+  "holdBackTable": [
+    {
+      "totalDice": 1,
+      "looseOnes": 0,
+      "looseFives": 1,
+      "looseTotal": 1,
+      "lockCount": 1,
+      "holdsBack": false
+    },
+    {
+      "totalDice": 1,
+      "looseOnes": 1,
+      "looseFives": 0,
+      "looseTotal": 1,
+      "lockCount": 1,
+      "holdsBack": false
+    },
+    {
+      "totalDice": 2,
+      "looseOnes": 0,
+      "looseFives": 1,
+      "looseTotal": 1,
+      "lockCount": 1,
+      "holdsBack": false
+    },
+    {
+      "totalDice": 2,
+      "looseOnes": 0,
+      "looseFives": 2,
+      "looseTotal": 2,
+      "lockCount": 2,
+      "holdsBack": false
+    },
+    {
+      "totalDice": 2,
+      "looseOnes": 1,
+      "looseFives": 0,
+      "looseTotal": 1,
+      "lockCount": 1,
+      "holdsBack": false
+    },
+    {
+      "totalDice": 2,
+      "looseOnes": 1,
+      "looseFives": 1,
+      "looseTotal": 2,
+      "lockCount": 2,
+      "holdsBack": false
+    },
+    {
+      "totalDice": 2,
+      "looseOnes": 2,
+      "looseFives": 0,
+      "looseTotal": 2,
+      "lockCount": 2,
+      "holdsBack": false
+    },
+    {
+      "totalDice": 3,
+      "looseOnes": 0,
+      "looseFives": 1,
+      "looseTotal": 1,
+      "lockCount": 1,
+      "holdsBack": false
+    },
+    {
+      "totalDice": 3,
+      "looseOnes": 0,
+      "looseFives": 2,
+      "looseTotal": 2,
+      "lockCount": 2,
+      "holdsBack": false
+    },
+    {
+      "totalDice": 3,
+      "looseOnes": 1,
+      "looseFives": 0,
+      "looseTotal": 1,
+      "lockCount": 1,
+      "holdsBack": false
+    },
+    {
+      "totalDice": 3,
+      "looseOnes": 1,
+      "looseFives": 1,
+      "looseTotal": 2,
+      "lockCount": 2,
+      "holdsBack": false
+    },
+    {
+      "totalDice": 3,
+      "looseOnes": 1,
+      "looseFives": 2,
+      "looseTotal": 3,
+      "lockCount": 3,
+      "holdsBack": false
+    },
+    {
+      "totalDice": 3,
+      "looseOnes": 2,
+      "looseFives": 0,
+      "looseTotal": 2,
+      "lockCount": 2,
+      "holdsBack": false
+    },
+    {
+      "totalDice": 3,
+      "looseOnes": 2,
+      "looseFives": 1,
+      "looseTotal": 3,
+      "lockCount": 3,
+      "holdsBack": false
+    },
+    {
+      "totalDice": 4,
+      "looseOnes": 0,
+      "looseFives": 1,
+      "looseTotal": 1,
+      "lockCount": 1,
+      "holdsBack": false
+    },
+    {
+      "totalDice": 4,
+      "looseOnes": 0,
+      "looseFives": 2,
+      "looseTotal": 2,
+      "lockCount": 2,
+      "holdsBack": false
+    },
+    {
+      "totalDice": 4,
+      "looseOnes": 1,
+      "looseFives": 0,
+      "looseTotal": 1,
+      "lockCount": 1,
+      "holdsBack": false
+    },
+    {
+      "totalDice": 4,
+      "looseOnes": 1,
+      "looseFives": 1,
+      "looseTotal": 2,
+      "lockCount": 1,
+      "holdsBack": true
+    },
+    {
+      "totalDice": 4,
+      "looseOnes": 1,
+      "looseFives": 2,
+      "looseTotal": 3,
+      "lockCount": 3,
+      "holdsBack": false
+    },
+    {
+      "totalDice": 4,
+      "looseOnes": 2,
+      "looseFives": 0,
+      "looseTotal": 2,
+      "lockCount": 2,
+      "holdsBack": false
+    },
+    {
+      "totalDice": 4,
+      "looseOnes": 2,
+      "looseFives": 1,
+      "looseTotal": 3,
+      "lockCount": 3,
+      "holdsBack": false
+    },
+    {
+      "totalDice": 4,
+      "looseOnes": 2,
+      "looseFives": 2,
+      "looseTotal": 4,
+      "lockCount": 4,
+      "holdsBack": false
+    },
+    {
+      "totalDice": 5,
+      "looseOnes": 0,
+      "looseFives": 1,
+      "looseTotal": 1,
+      "lockCount": 1,
+      "holdsBack": false
+    },
+    {
+      "totalDice": 5,
+      "looseOnes": 0,
+      "looseFives": 2,
+      "looseTotal": 2,
+      "lockCount": 1,
+      "holdsBack": true
+    },
+    {
+      "totalDice": 5,
+      "looseOnes": 1,
+      "looseFives": 0,
+      "looseTotal": 1,
+      "lockCount": 1,
+      "holdsBack": false
+    },
+    {
+      "totalDice": 5,
+      "looseOnes": 1,
+      "looseFives": 1,
+      "looseTotal": 2,
+      "lockCount": 1,
+      "holdsBack": true
+    },
+    {
+      "totalDice": 5,
+      "looseOnes": 1,
+      "looseFives": 2,
+      "looseTotal": 3,
+      "lockCount": 1,
+      "holdsBack": true
+    },
+    {
+      "totalDice": 5,
+      "looseOnes": 2,
+      "looseFives": 0,
+      "looseTotal": 2,
+      "lockCount": 1,
+      "holdsBack": true
+    },
+    {
+      "totalDice": 5,
+      "looseOnes": 2,
+      "looseFives": 1,
+      "looseTotal": 3,
+      "lockCount": 1,
+      "holdsBack": true
+    },
+    {
+      "totalDice": 5,
+      "looseOnes": 2,
+      "looseFives": 2,
+      "looseTotal": 4,
+      "lockCount": 4,
+      "holdsBack": false
+    },
+    {
+      "totalDice": 6,
+      "looseOnes": 0,
+      "looseFives": 1,
+      "looseTotal": 1,
+      "lockCount": 1,
+      "holdsBack": false
+    },
+    {
+      "totalDice": 6,
+      "looseOnes": 0,
+      "looseFives": 2,
+      "looseTotal": 2,
+      "lockCount": 1,
+      "holdsBack": true
+    },
+    {
+      "totalDice": 6,
+      "looseOnes": 1,
+      "looseFives": 0,
+      "looseTotal": 1,
+      "lockCount": 1,
+      "holdsBack": false
+    },
+    {
+      "totalDice": 6,
+      "looseOnes": 1,
+      "looseFives": 1,
+      "looseTotal": 2,
+      "lockCount": 1,
+      "holdsBack": true
+    },
+    {
+      "totalDice": 6,
+      "looseOnes": 1,
+      "looseFives": 2,
+      "looseTotal": 3,
+      "lockCount": 1,
+      "holdsBack": true
+    },
+    {
+      "totalDice": 6,
+      "looseOnes": 2,
+      "looseFives": 0,
+      "looseTotal": 2,
+      "lockCount": 1,
+      "holdsBack": true
+    },
+    {
+      "totalDice": 6,
+      "looseOnes": 2,
+      "looseFives": 1,
+      "looseTotal": 3,
+      "lockCount": 1,
+      "holdsBack": true
+    },
+    {
+      "totalDice": 6,
+      "looseOnes": 2,
+      "looseFives": 2,
+      "looseTotal": 4,
+      "lockCount": 1,
+      "holdsBack": true
+    }
+  ],
   "exactStats": [
     {
       "diceRemaining": 1,
@@ -51,248 +358,248 @@ window.FARKLE_DATA = {
       "diceRemaining": 1,
       "turnScore": 0,
       "evBank": 0,
-      "evReroll": 213.5,
-      "stderr": 6.0,
+      "evReroll": 213.4,
+      "stderr": 6.08,
       "rerollBetter": true
     },
     {
       "diceRemaining": 1,
       "turnScore": 100,
       "evBank": 100,
-      "evReroll": 243.0,
-      "stderr": 6.17,
+      "evReroll": 245.4,
+      "stderr": 6.39,
       "rerollBetter": true
     },
     {
       "diceRemaining": 1,
       "turnScore": 200,
       "evBank": 200,
-      "evReroll": 289.1,
-      "stderr": 7.13,
+      "evReroll": 280.3,
+      "stderr": 7.02,
       "rerollBetter": true
     },
     {
       "diceRemaining": 1,
       "turnScore": 300,
       "evBank": 300,
-      "evReroll": 307.0,
-      "stderr": 7.32,
-      "rerollBetter": true
+      "evReroll": 298.9,
+      "stderr": 7.33,
+      "rerollBetter": false
     },
     {
       "diceRemaining": 1,
       "turnScore": 400,
       "evBank": 400,
-      "evReroll": 334.6,
-      "stderr": 7.88,
+      "evReroll": 332.0,
+      "stderr": 7.97,
       "rerollBetter": false
     },
     {
       "diceRemaining": 1,
       "turnScore": 500,
       "evBank": 500,
-      "evReroll": 368.2,
-      "stderr": 8.44,
+      "evReroll": 360.9,
+      "stderr": 8.48,
       "rerollBetter": false
     },
     {
       "diceRemaining": 1,
       "turnScore": 600,
       "evBank": 600,
-      "evReroll": 375.4,
-      "stderr": 8.33,
+      "evReroll": 369.6,
+      "stderr": 8.38,
       "rerollBetter": false
     },
     {
       "diceRemaining": 1,
       "turnScore": 700,
       "evBank": 700,
-      "evReroll": 431.7,
-      "stderr": 9.51,
+      "evReroll": 428.7,
+      "stderr": 9.66,
       "rerollBetter": false
     },
     {
       "diceRemaining": 1,
       "turnScore": 800,
       "evBank": 800,
-      "evReroll": 448.9,
-      "stderr": 9.55,
+      "evReroll": 438.6,
+      "stderr": 9.34,
       "rerollBetter": false
     },
     {
       "diceRemaining": 1,
       "turnScore": 900,
       "evBank": 900,
-      "evReroll": 470.9,
-      "stderr": 10.1,
+      "evReroll": 463.6,
+      "stderr": 10.0,
       "rerollBetter": false
     },
     {
       "diceRemaining": 1,
       "turnScore": 1000,
       "evBank": 1000,
-      "evReroll": 531.2,
-      "stderr": 11.05,
+      "evReroll": 521.6,
+      "stderr": 10.85,
       "rerollBetter": false
     },
     {
       "diceRemaining": 1,
       "turnScore": 1100,
       "evBank": 1100,
-      "evReroll": 535.5,
-      "stderr": 11.18,
+      "evReroll": 524.5,
+      "stderr": 11.03,
       "rerollBetter": false
     },
     {
       "diceRemaining": 1,
       "turnScore": 1200,
       "evBank": 1200,
-      "evReroll": 564.6,
-      "stderr": 11.6,
+      "evReroll": 562.7,
+      "stderr": 11.56,
       "rerollBetter": false
     },
     {
       "diceRemaining": 1,
       "turnScore": 1300,
       "evBank": 1300,
-      "evReroll": 630.3,
-      "stderr": 12.64,
+      "evReroll": 627.7,
+      "stderr": 12.58,
       "rerollBetter": false
     },
     {
       "diceRemaining": 1,
       "turnScore": 1400,
       "evBank": 1400,
-      "evReroll": 631.8,
-      "stderr": 13.11,
+      "evReroll": 620.4,
+      "stderr": 12.9,
       "rerollBetter": false
     },
     {
       "diceRemaining": 1,
       "turnScore": 1500,
       "evBank": 1500,
-      "evReroll": 673.3,
-      "stderr": 13.52,
+      "evReroll": 662.8,
+      "stderr": 13.38,
       "rerollBetter": false
     },
     {
       "diceRemaining": 1,
       "turnScore": 1600,
       "evBank": 1600,
-      "evReroll": 689.7,
-      "stderr": 14.15,
+      "evReroll": 684.3,
+      "stderr": 14.02,
       "rerollBetter": false
     },
     {
       "diceRemaining": 1,
       "turnScore": 1700,
       "evBank": 1700,
-      "evReroll": 736.3,
-      "stderr": 14.48,
+      "evReroll": 729.7,
+      "stderr": 14.37,
       "rerollBetter": false
     },
     {
       "diceRemaining": 1,
       "turnScore": 1800,
       "evBank": 1800,
-      "evReroll": 772.1,
-      "stderr": 15.39,
+      "evReroll": 765.6,
+      "stderr": 15.28,
       "rerollBetter": false
     },
     {
       "diceRemaining": 1,
       "turnScore": 1900,
       "evBank": 1900,
-      "evReroll": 794.3,
-      "stderr": 15.84,
+      "evReroll": 785.1,
+      "stderr": 15.71,
       "rerollBetter": false
     },
     {
       "diceRemaining": 1,
       "turnScore": 2000,
       "evBank": 2000,
-      "evReroll": 816.0,
-      "stderr": 16.34,
+      "evReroll": 809.4,
+      "stderr": 16.21,
       "rerollBetter": false
     },
     {
       "diceRemaining": 1,
       "turnScore": 2100,
       "evBank": 2100,
-      "evReroll": 829.9,
-      "stderr": 16.8,
+      "evReroll": 825.9,
+      "stderr": 16.7,
       "rerollBetter": false
     },
     {
       "diceRemaining": 1,
       "turnScore": 2200,
       "evBank": 2200,
-      "evReroll": 847.5,
-      "stderr": 17.26,
+      "evReroll": 837.3,
+      "stderr": 17.11,
       "rerollBetter": false
     },
     {
       "diceRemaining": 1,
       "turnScore": 2300,
       "evBank": 2300,
-      "evReroll": 913.4,
-      "stderr": 18.16,
+      "evReroll": 907.0,
+      "stderr": 18.08,
       "rerollBetter": false
     },
     {
       "diceRemaining": 1,
       "turnScore": 2400,
       "evBank": 2400,
-      "evReroll": 953.0,
-      "stderr": 18.78,
+      "evReroll": 942.3,
+      "stderr": 18.63,
       "rerollBetter": false
     },
     {
       "diceRemaining": 1,
       "turnScore": 2500,
       "evBank": 2500,
-      "evReroll": 965.6,
-      "stderr": 19.21,
+      "evReroll": 970.0,
+      "stderr": 18.59,
       "rerollBetter": false
     },
     {
       "diceRemaining": 1,
       "turnScore": 2600,
       "evBank": 2600,
-      "evReroll": 1002.4,
-      "stderr": 19.73,
+      "evReroll": 1007.3,
+      "stderr": 19.12,
       "rerollBetter": false
     },
     {
       "diceRemaining": 1,
       "turnScore": 2700,
       "evBank": 2700,
-      "evReroll": 1021.5,
-      "stderr": 20.31,
+      "evReroll": 1028.0,
+      "stderr": 19.68,
       "rerollBetter": false
     },
     {
       "diceRemaining": 1,
       "turnScore": 2800,
       "evBank": 2800,
-      "evReroll": 1074.0,
-      "stderr": 20.99,
+      "evReroll": 1064.7,
+      "stderr": 20.36,
       "rerollBetter": false
     },
     {
       "diceRemaining": 1,
       "turnScore": 2900,
       "evBank": 2900,
-      "evReroll": 1085.4,
-      "stderr": 21.59,
+      "evReroll": 1096.4,
+      "stderr": 21.04,
       "rerollBetter": false
     },
     {
       "diceRemaining": 1,
       "turnScore": 3000,
       "evBank": 3000,
-      "evReroll": 1147.5,
-      "stderr": 21.63,
+      "evReroll": 1149.7,
+      "stderr": 21.59,
       "rerollBetter": false
     },
     {
@@ -379,240 +686,240 @@ window.FARKLE_DATA = {
       "diceRemaining": 2,
       "turnScore": 0,
       "evBank": 0,
-      "evReroll": 197.5,
-      "stderr": 6.01,
+      "evReroll": 198.8,
+      "stderr": 6.11,
       "rerollBetter": true
     },
     {
       "diceRemaining": 2,
       "turnScore": 100,
       "evBank": 100,
-      "evReroll": 201.8,
-      "stderr": 5.87,
+      "evReroll": 198.7,
+      "stderr": 5.85,
       "rerollBetter": true
     },
     {
       "diceRemaining": 2,
       "turnScore": 200,
       "evBank": 200,
-      "evReroll": 226.5,
-      "stderr": 6.36,
+      "evReroll": 222.7,
+      "stderr": 5.5,
       "rerollBetter": true
     },
     {
       "diceRemaining": 2,
       "turnScore": 300,
       "evBank": 300,
-      "evReroll": 277.2,
-      "stderr": 4.96,
+      "evReroll": 278.3,
+      "stderr": 5.11,
       "rerollBetter": false
     },
     {
       "diceRemaining": 2,
       "turnScore": 400,
       "evBank": 400,
-      "evReroll": 325.3,
-      "stderr": 5.27,
+      "evReroll": 322.6,
+      "stderr": 5.31,
       "rerollBetter": false
     },
     {
       "diceRemaining": 2,
       "turnScore": 500,
       "evBank": 500,
-      "evReroll": 386.7,
-      "stderr": 5.77,
+      "evReroll": 382.7,
+      "stderr": 5.73,
       "rerollBetter": false
     },
     {
       "diceRemaining": 2,
       "turnScore": 600,
       "evBank": 600,
-      "evReroll": 436.8,
-      "stderr": 6.19,
+      "evReroll": 433.1,
+      "stderr": 6.26,
       "rerollBetter": false
     },
     {
       "diceRemaining": 2,
       "turnScore": 700,
       "evBank": 700,
-      "evReroll": 496.0,
-      "stderr": 6.98,
+      "evReroll": 492.8,
+      "stderr": 6.9,
       "rerollBetter": false
     },
     {
       "diceRemaining": 2,
       "turnScore": 800,
       "evBank": 800,
-      "evReroll": 550.2,
-      "stderr": 7.44,
+      "evReroll": 547.9,
+      "stderr": 7.41,
       "rerollBetter": false
     },
     {
       "diceRemaining": 2,
       "turnScore": 900,
       "evBank": 900,
-      "evReroll": 605.4,
-      "stderr": 7.63,
+      "evReroll": 601.8,
+      "stderr": 7.58,
       "rerollBetter": false
     },
     {
       "diceRemaining": 2,
       "turnScore": 1000,
       "evBank": 1000,
-      "evReroll": 648.0,
-      "stderr": 8.45,
+      "evReroll": 647.6,
+      "stderr": 8.41,
       "rerollBetter": false
     },
     {
       "diceRemaining": 2,
       "turnScore": 1100,
       "evBank": 1100,
-      "evReroll": 713.8,
-      "stderr": 9.1,
+      "evReroll": 712.4,
+      "stderr": 9.03,
       "rerollBetter": false
     },
     {
       "diceRemaining": 2,
       "turnScore": 1200,
       "evBank": 1200,
-      "evReroll": 775.5,
-      "stderr": 9.75,
+      "evReroll": 775.1,
+      "stderr": 9.7,
       "rerollBetter": false
     },
     {
       "diceRemaining": 2,
       "turnScore": 1300,
       "evBank": 1300,
-      "evReroll": 827.3,
-      "stderr": 10.24,
+      "evReroll": 823.7,
+      "stderr": 10.16,
       "rerollBetter": false
     },
     {
       "diceRemaining": 2,
       "turnScore": 1400,
       "evBank": 1400,
-      "evReroll": 868.4,
-      "stderr": 10.92,
+      "evReroll": 862.5,
+      "stderr": 10.85,
       "rerollBetter": false
     },
     {
       "diceRemaining": 2,
       "turnScore": 1500,
       "evBank": 1500,
-      "evReroll": 916.6,
-      "stderr": 11.37,
+      "evReroll": 914.9,
+      "stderr": 11.34,
       "rerollBetter": false
     },
     {
       "diceRemaining": 2,
       "turnScore": 1600,
       "evBank": 1600,
-      "evReroll": 975.9,
-      "stderr": 12.08,
+      "evReroll": 973.4,
+      "stderr": 12.04,
       "rerollBetter": false
     },
     {
       "diceRemaining": 2,
       "turnScore": 1700,
       "evBank": 1700,
-      "evReroll": 1029.9,
-      "stderr": 12.6,
+      "evReroll": 1028.1,
+      "stderr": 12.57,
       "rerollBetter": false
     },
     {
       "diceRemaining": 2,
       "turnScore": 1800,
       "evBank": 1800,
-      "evReroll": 1092.5,
-      "stderr": 13.41,
+      "evReroll": 1091.2,
+      "stderr": 13.36,
       "rerollBetter": false
     },
     {
       "diceRemaining": 2,
       "turnScore": 1900,
       "evBank": 1900,
-      "evReroll": 1148.5,
-      "stderr": 13.98,
+      "evReroll": 1147.8,
+      "stderr": 13.93,
       "rerollBetter": false
     },
     {
       "diceRemaining": 2,
       "turnScore": 2000,
       "evBank": 2000,
-      "evReroll": 1212.0,
-      "stderr": 14.5,
+      "evReroll": 1211.9,
+      "stderr": 14.48,
       "rerollBetter": false
     },
     {
       "diceRemaining": 2,
       "turnScore": 2100,
       "evBank": 2100,
-      "evReroll": 1278.2,
-      "stderr": 15.13,
+      "evReroll": 1277.4,
+      "stderr": 15.11,
       "rerollBetter": false
     },
     {
       "diceRemaining": 2,
       "turnScore": 2200,
       "evBank": 2200,
-      "evReroll": 1275.9,
-      "stderr": 15.89,
+      "evReroll": 1273.6,
+      "stderr": 15.85,
       "rerollBetter": false
     },
     {
       "diceRemaining": 2,
       "turnScore": 2300,
       "evBank": 2300,
-      "evReroll": 1385.1,
-      "stderr": 16.38,
+      "evReroll": 1381.1,
+      "stderr": 16.35,
       "rerollBetter": false
     },
     {
       "diceRemaining": 2,
       "turnScore": 2400,
       "evBank": 2400,
-      "evReroll": 1434.6,
-      "stderr": 17.17,
+      "evReroll": 1415.5,
+      "stderr": 17.04,
       "rerollBetter": false
     },
     {
       "diceRemaining": 2,
       "turnScore": 2500,
       "evBank": 2500,
-      "evReroll": 1465.1,
-      "stderr": 17.64,
+      "evReroll": 1463.3,
+      "stderr": 17.46,
       "rerollBetter": false
     },
     {
       "diceRemaining": 2,
       "turnScore": 2600,
       "evBank": 2600,
-      "evReroll": 1512.5,
-      "stderr": 18.28,
+      "evReroll": 1519.6,
+      "stderr": 18.09,
       "rerollBetter": false
     },
     {
       "diceRemaining": 2,
       "turnScore": 2700,
       "evBank": 2700,
-      "evReroll": 1605.8,
-      "stderr": 18.96,
+      "evReroll": 1613.4,
+      "stderr": 18.67,
       "rerollBetter": false
     },
     {
       "diceRemaining": 2,
       "turnScore": 2800,
       "evBank": 2800,
-      "evReroll": 1642.7,
-      "stderr": 19.59,
+      "evReroll": 1647.9,
+      "stderr": 19.29,
       "rerollBetter": false
     },
     {
       "diceRemaining": 2,
       "turnScore": 2900,
       "evBank": 2900,
-      "evReroll": 1705.9,
-      "stderr": 20.1,
+      "evReroll": 1692.4,
+      "stderr": 19.99,
       "rerollBetter": false
     },
     {
@@ -707,232 +1014,232 @@ window.FARKLE_DATA = {
       "diceRemaining": 3,
       "turnScore": 0,
       "evBank": 0,
-      "evReroll": 185.1,
-      "stderr": 5.59,
+      "evReroll": 191.8,
+      "stderr": 5.85,
       "rerollBetter": true
     },
     {
       "diceRemaining": 3,
       "turnScore": 100,
       "evBank": 100,
-      "evReroll": 218.2,
-      "stderr": 6.39,
+      "evReroll": 218.0,
+      "stderr": 6.28,
       "rerollBetter": true
     },
     {
       "diceRemaining": 3,
       "turnScore": 200,
       "evBank": 200,
-      "evReroll": 257.5,
-      "stderr": 4.23,
+      "evReroll": 260.6,
+      "stderr": 4.04,
       "rerollBetter": true
     },
     {
       "diceRemaining": 3,
       "turnScore": 300,
       "evBank": 300,
-      "evReroll": 329.3,
-      "stderr": 4.04,
+      "evReroll": 327.2,
+      "stderr": 4.09,
       "rerollBetter": true
     },
     {
       "diceRemaining": 3,
       "turnScore": 400,
       "evBank": 400,
-      "evReroll": 397.4,
-      "stderr": 4.37,
+      "evReroll": 399.7,
+      "stderr": 4.49,
       "rerollBetter": false
     },
     {
       "diceRemaining": 3,
       "turnScore": 500,
       "evBank": 500,
-      "evReroll": 480.9,
-      "stderr": 4.94,
+      "evReroll": 479.7,
+      "stderr": 4.96,
       "rerollBetter": false
     },
     {
       "diceRemaining": 3,
       "turnScore": 600,
       "evBank": 600,
-      "evReroll": 543.0,
-      "stderr": 5.32,
+      "evReroll": 542.3,
+      "stderr": 5.3,
       "rerollBetter": false
     },
     {
       "diceRemaining": 3,
       "turnScore": 700,
       "evBank": 700,
-      "evReroll": 622.2,
-      "stderr": 5.87,
+      "evReroll": 619.7,
+      "stderr": 5.85,
       "rerollBetter": false
     },
     {
       "diceRemaining": 3,
       "turnScore": 800,
       "evBank": 800,
-      "evReroll": 697.8,
-      "stderr": 6.4,
+      "evReroll": 693.8,
+      "stderr": 6.35,
       "rerollBetter": false
     },
     {
       "diceRemaining": 3,
       "turnScore": 900,
       "evBank": 900,
-      "evReroll": 758.9,
-      "stderr": 6.84,
+      "evReroll": 755.2,
+      "stderr": 6.82,
       "rerollBetter": false
     },
     {
       "diceRemaining": 3,
       "turnScore": 1000,
       "evBank": 1000,
-      "evReroll": 833.1,
-      "stderr": 7.35,
+      "evReroll": 831.5,
+      "stderr": 7.33,
       "rerollBetter": false
     },
     {
       "diceRemaining": 3,
       "turnScore": 1100,
       "evBank": 1100,
-      "evReroll": 906.2,
-      "stderr": 7.83,
+      "evReroll": 906.0,
+      "stderr": 7.77,
       "rerollBetter": false
     },
     {
       "diceRemaining": 3,
       "turnScore": 1200,
       "evBank": 1200,
-      "evReroll": 976.2,
-      "stderr": 8.55,
+      "evReroll": 973.0,
+      "stderr": 8.54,
       "rerollBetter": false
     },
     {
       "diceRemaining": 3,
       "turnScore": 1300,
       "evBank": 1300,
-      "evReroll": 1050.7,
-      "stderr": 8.94,
+      "evReroll": 1050.2,
+      "stderr": 8.9,
       "rerollBetter": false
     },
     {
       "diceRemaining": 3,
       "turnScore": 1400,
       "evBank": 1400,
-      "evReroll": 1112.3,
-      "stderr": 9.65,
+      "evReroll": 1111.9,
+      "stderr": 9.63,
       "rerollBetter": false
     },
     {
       "diceRemaining": 3,
       "turnScore": 1500,
       "evBank": 1500,
-      "evReroll": 1200.9,
-      "stderr": 10.13,
+      "evReroll": 1199.7,
+      "stderr": 10.11,
       "rerollBetter": false
     },
     {
       "diceRemaining": 3,
       "turnScore": 1600,
       "evBank": 1600,
-      "evReroll": 1258.9,
-      "stderr": 10.66,
+      "evReroll": 1254.9,
+      "stderr": 10.61,
       "rerollBetter": false
     },
     {
       "diceRemaining": 3,
       "turnScore": 1700,
       "evBank": 1700,
-      "evReroll": 1333.1,
-      "stderr": 11.22,
+      "evReroll": 1335.0,
+      "stderr": 11.16,
       "rerollBetter": false
     },
     {
       "diceRemaining": 3,
       "turnScore": 1800,
       "evBank": 1800,
-      "evReroll": 1416.5,
-      "stderr": 11.82,
+      "evReroll": 1420.8,
+      "stderr": 11.77,
       "rerollBetter": false
     },
     {
       "diceRemaining": 3,
       "turnScore": 1900,
       "evBank": 1900,
-      "evReroll": 1479.1,
-      "stderr": 12.4,
+      "evReroll": 1478.0,
+      "stderr": 12.39,
       "rerollBetter": false
     },
     {
       "diceRemaining": 3,
       "turnScore": 2000,
       "evBank": 2000,
-      "evReroll": 1559.2,
-      "stderr": 12.93,
+      "evReroll": 1560.8,
+      "stderr": 12.83,
       "rerollBetter": false
     },
     {
       "diceRemaining": 3,
       "turnScore": 2100,
       "evBank": 2100,
-      "evReroll": 1628.1,
-      "stderr": 13.52,
+      "evReroll": 1635.9,
+      "stderr": 13.46,
       "rerollBetter": false
     },
     {
       "diceRemaining": 3,
       "turnScore": 2200,
       "evBank": 2200,
-      "evReroll": 1713.5,
-      "stderr": 13.94,
+      "evReroll": 1693.7,
+      "stderr": 13.97,
       "rerollBetter": false
     },
     {
       "diceRemaining": 3,
       "turnScore": 2300,
       "evBank": 2300,
-      "evReroll": 1760.2,
-      "stderr": 14.66,
+      "evReroll": 1766.4,
+      "stderr": 14.56,
       "rerollBetter": false
     },
     {
       "diceRemaining": 3,
       "turnScore": 2400,
       "evBank": 2400,
-      "evReroll": 1828.2,
-      "stderr": 15.1,
+      "evReroll": 1833.5,
+      "stderr": 14.98,
       "rerollBetter": false
     },
     {
       "diceRemaining": 3,
       "turnScore": 2500,
       "evBank": 2500,
-      "evReroll": 1911.5,
-      "stderr": 15.78,
+      "evReroll": 1894.0,
+      "stderr": 15.8,
       "rerollBetter": false
     },
     {
       "diceRemaining": 3,
       "turnScore": 2600,
       "evBank": 2600,
-      "evReroll": 1976.9,
-      "stderr": 16.38,
+      "evReroll": 1970.8,
+      "stderr": 16.16,
       "rerollBetter": false
     },
     {
       "diceRemaining": 3,
       "turnScore": 2700,
       "evBank": 2700,
-      "evReroll": 2032.4,
-      "stderr": 17.03,
+      "evReroll": 2032.2,
+      "stderr": 16.87,
       "rerollBetter": false
     },
     {
       "diceRemaining": 3,
       "turnScore": 2800,
       "evBank": 2800,
-      "evReroll": 2137.8,
-      "stderr": 17.35,
+      "evReroll": 2123.5,
+      "stderr": 17.4,
       "rerollBetter": false
     },
     {
@@ -1035,95 +1342,95 @@ window.FARKLE_DATA = {
       "diceRemaining": 4,
       "turnScore": 0,
       "evBank": 0,
-      "evReroll": 244.4,
-      "stderr": 6.41,
+      "evReroll": 250.1,
+      "stderr": 6.38,
       "rerollBetter": true
     },
     {
       "diceRemaining": 4,
       "turnScore": 100,
       "evBank": 100,
-      "evReroll": 273.9,
-      "stderr": 5.16,
+      "evReroll": 268.3,
+      "stderr": 4.9,
       "rerollBetter": true
     },
     {
       "diceRemaining": 4,
       "turnScore": 200,
       "evBank": 200,
-      "evReroll": 356.0,
-      "stderr": 5.03,
+      "evReroll": 349.2,
+      "stderr": 5.12,
       "rerollBetter": true
     },
     {
       "diceRemaining": 4,
       "turnScore": 300,
       "evBank": 300,
-      "evReroll": 421.9,
-      "stderr": 4.98,
+      "evReroll": 415.1,
+      "stderr": 5.24,
       "rerollBetter": true
     },
     {
       "diceRemaining": 4,
       "turnScore": 400,
       "evBank": 400,
-      "evReroll": 500.7,
-      "stderr": 4.2,
+      "evReroll": 491.7,
+      "stderr": 4.21,
       "rerollBetter": true
     },
     {
       "diceRemaining": 4,
       "turnScore": 500,
       "evBank": 500,
-      "evReroll": 589.3,
-      "stderr": 4.59,
+      "evReroll": 580.3,
+      "stderr": 4.57,
       "rerollBetter": true
     },
     {
       "diceRemaining": 4,
       "turnScore": 600,
       "evBank": 600,
-      "evReroll": 659.4,
-      "stderr": 4.75,
+      "evReroll": 650.9,
+      "stderr": 4.71,
       "rerollBetter": true
     },
     {
       "diceRemaining": 4,
       "turnScore": 700,
       "evBank": 700,
-      "evReroll": 750.3,
-      "stderr": 5.47,
+      "evReroll": 741.1,
+      "stderr": 5.42,
       "rerollBetter": true
     },
     {
       "diceRemaining": 4,
       "turnScore": 800,
       "evBank": 800,
-      "evReroll": 845.6,
-      "stderr": 5.82,
+      "evReroll": 838.8,
+      "stderr": 5.79,
       "rerollBetter": true
     },
     {
       "diceRemaining": 4,
       "turnScore": 900,
       "evBank": 900,
-      "evReroll": 918.3,
-      "stderr": 6.18,
+      "evReroll": 912.0,
+      "stderr": 6.12,
       "rerollBetter": true
     },
     {
       "diceRemaining": 4,
       "turnScore": 1000,
       "evBank": 1000,
-      "evReroll": 1007.3,
-      "stderr": 6.44,
+      "evReroll": 1000.5,
+      "stderr": 6.39,
       "rerollBetter": true
     },
     {
       "diceRemaining": 4,
       "turnScore": 1100,
       "evBank": 1100,
-      "evReroll": 1079.8,
+      "evReroll": 1071.7,
       "stderr": 6.88,
       "rerollBetter": false
     },
@@ -1131,808 +1438,808 @@ window.FARKLE_DATA = {
       "diceRemaining": 4,
       "turnScore": 1200,
       "evBank": 1200,
-      "evReroll": 1174.5,
-      "stderr": 7.35,
+      "evReroll": 1166.2,
+      "stderr": 7.31,
       "rerollBetter": false
     },
     {
       "diceRemaining": 4,
       "turnScore": 1300,
       "evBank": 1300,
-      "evReroll": 1252.7,
-      "stderr": 7.86,
+      "evReroll": 1244.0,
+      "stderr": 7.82,
       "rerollBetter": false
     },
     {
       "diceRemaining": 4,
       "turnScore": 1400,
       "evBank": 1400,
-      "evReroll": 1337.7,
-      "stderr": 8.23,
+      "evReroll": 1332.0,
+      "stderr": 8.24,
       "rerollBetter": false
     },
     {
       "diceRemaining": 4,
       "turnScore": 1500,
       "evBank": 1500,
-      "evReroll": 1428.1,
-      "stderr": 8.74,
+      "evReroll": 1417.2,
+      "stderr": 8.64,
       "rerollBetter": false
     },
     {
       "diceRemaining": 4,
       "turnScore": 1600,
       "evBank": 1600,
-      "evReroll": 1500.6,
-      "stderr": 9.33,
+      "evReroll": 1492.0,
+      "stderr": 9.22,
       "rerollBetter": false
     },
     {
       "diceRemaining": 4,
       "turnScore": 1700,
       "evBank": 1700,
-      "evReroll": 1590.2,
-      "stderr": 9.71,
+      "evReroll": 1579.4,
+      "stderr": 9.59,
       "rerollBetter": false
     },
     {
       "diceRemaining": 4,
       "turnScore": 1800,
       "evBank": 1800,
-      "evReroll": 1678.6,
-      "stderr": 10.11,
+      "evReroll": 1671.1,
+      "stderr": 9.99,
       "rerollBetter": false
     },
     {
       "diceRemaining": 4,
       "turnScore": 1900,
       "evBank": 1900,
-      "evReroll": 1753.1,
-      "stderr": 10.53,
+      "evReroll": 1752.8,
+      "stderr": 10.4,
       "rerollBetter": false
     },
     {
       "diceRemaining": 4,
       "turnScore": 2000,
       "evBank": 2000,
-      "evReroll": 1855.4,
-      "stderr": 10.8,
+      "evReroll": 1842.5,
+      "stderr": 10.98,
       "rerollBetter": false
     },
     {
       "diceRemaining": 4,
       "turnScore": 2100,
       "evBank": 2100,
-      "evReroll": 1923.6,
-      "stderr": 11.33,
+      "evReroll": 1913.3,
+      "stderr": 11.24,
       "rerollBetter": false
     },
     {
       "diceRemaining": 4,
       "turnScore": 2200,
       "evBank": 2200,
-      "evReroll": 2012.9,
-      "stderr": 11.75,
+      "evReroll": 1997.4,
+      "stderr": 11.83,
       "rerollBetter": false
     },
     {
       "diceRemaining": 4,
       "turnScore": 2300,
       "evBank": 2300,
-      "evReroll": 2106.1,
-      "stderr": 12.1,
+      "evReroll": 2096.4,
+      "stderr": 12.0,
       "rerollBetter": false
     },
     {
       "diceRemaining": 4,
       "turnScore": 2400,
       "evBank": 2400,
-      "evReroll": 2184.8,
-      "stderr": 12.7,
+      "evReroll": 2185.9,
+      "stderr": 12.43,
       "rerollBetter": false
     },
     {
       "diceRemaining": 4,
       "turnScore": 2500,
       "evBank": 2500,
-      "evReroll": 2266.6,
-      "stderr": 13.05,
+      "evReroll": 2263.4,
+      "stderr": 12.96,
       "rerollBetter": false
     },
     {
       "diceRemaining": 4,
       "turnScore": 2600,
       "evBank": 2600,
-      "evReroll": 2351.9,
-      "stderr": 13.45,
+      "evReroll": 2344.2,
+      "stderr": 13.33,
       "rerollBetter": false
     },
     {
       "diceRemaining": 4,
       "turnScore": 2700,
       "evBank": 2700,
-      "evReroll": 2433.5,
-      "stderr": 13.88,
+      "evReroll": 2423.8,
+      "stderr": 13.82,
       "rerollBetter": false
     },
     {
       "diceRemaining": 4,
       "turnScore": 2800,
       "evBank": 2800,
-      "evReroll": 2509.3,
-      "stderr": 14.49,
+      "evReroll": 2511.6,
+      "stderr": 14.45,
       "rerollBetter": false
     },
     {
       "diceRemaining": 4,
       "turnScore": 2900,
       "evBank": 2900,
-      "evReroll": 2595.2,
-      "stderr": 14.91,
+      "evReroll": 2587.3,
+      "stderr": 14.87,
       "rerollBetter": false
     },
     {
       "diceRemaining": 4,
       "turnScore": 3000,
       "evBank": 3000,
-      "evReroll": 2679.5,
-      "stderr": 15.33,
+      "evReroll": 2672.0,
+      "stderr": 15.3,
       "rerollBetter": false
     },
     {
       "diceRemaining": 4,
       "turnScore": 3100,
       "evBank": 3100,
-      "evReroll": 2771.8,
-      "stderr": 15.98,
+      "evReroll": 2764.3,
+      "stderr": 15.95,
       "rerollBetter": false
     },
     {
       "diceRemaining": 4,
       "turnScore": 3200,
       "evBank": 3200,
-      "evReroll": 2858.2,
-      "stderr": 16.16,
+      "evReroll": 2850.4,
+      "stderr": 16.12,
       "rerollBetter": false
     },
     {
       "diceRemaining": 4,
       "turnScore": 3300,
       "evBank": 3300,
-      "evReroll": 2948.2,
-      "stderr": 16.58,
+      "evReroll": 2940.7,
+      "stderr": 16.54,
       "rerollBetter": false
     },
     {
       "diceRemaining": 4,
       "turnScore": 3400,
       "evBank": 3400,
-      "evReroll": 3037.6,
-      "stderr": 16.98,
+      "evReroll": 3030.3,
+      "stderr": 16.95,
       "rerollBetter": false
     },
     {
       "diceRemaining": 4,
       "turnScore": 3500,
       "evBank": 3500,
-      "evReroll": 3101.5,
-      "stderr": 17.58,
+      "evReroll": 3094.0,
+      "stderr": 17.54,
       "rerollBetter": false
     },
     {
       "diceRemaining": 4,
       "turnScore": 3600,
       "evBank": 3600,
-      "evReroll": 3201.1,
-      "stderr": 18.02,
+      "evReroll": 3193.7,
+      "stderr": 17.99,
       "rerollBetter": false
     },
     {
       "diceRemaining": 4,
       "turnScore": 3700,
       "evBank": 3700,
-      "evReroll": 3247.7,
-      "stderr": 18.97,
+      "evReroll": 3240.6,
+      "stderr": 18.93,
       "rerollBetter": false
     },
     {
       "diceRemaining": 4,
       "turnScore": 3800,
       "evBank": 3800,
-      "evReroll": 3358.4,
-      "stderr": 19.15,
+      "evReroll": 3351.0,
+      "stderr": 19.11,
       "rerollBetter": false
     },
     {
       "diceRemaining": 4,
       "turnScore": 3900,
       "evBank": 3900,
-      "evReroll": 3422.4,
-      "stderr": 19.8,
+      "evReroll": 3414.8,
+      "stderr": 19.76,
       "rerollBetter": false
     },
     {
       "diceRemaining": 4,
       "turnScore": 4000,
       "evBank": 4000,
-      "evReroll": 3525.6,
-      "stderr": 20.01,
+      "evReroll": 3518.5,
+      "stderr": 19.98,
       "rerollBetter": false
     },
     {
       "diceRemaining": 5,
       "turnScore": 0,
       "evBank": 0,
-      "evReroll": 315.1,
-      "stderr": 5.94,
+      "evReroll": 339.3,
+      "stderr": 5.67,
       "rerollBetter": true
     },
     {
       "diceRemaining": 5,
       "turnScore": 100,
       "evBank": 100,
-      "evReroll": 383.8,
-      "stderr": 4.98,
+      "evReroll": 401.6,
+      "stderr": 5.58,
       "rerollBetter": true
     },
     {
       "diceRemaining": 5,
       "turnScore": 200,
       "evBank": 200,
-      "evReroll": 454.0,
-      "stderr": 5.22,
+      "evReroll": 465.9,
+      "stderr": 5.69,
       "rerollBetter": true
     },
     {
       "diceRemaining": 5,
       "turnScore": 300,
       "evBank": 300,
-      "evReroll": 541.4,
-      "stderr": 4.91,
+      "evReroll": 545.7,
+      "stderr": 5.59,
       "rerollBetter": true
     },
     {
       "diceRemaining": 5,
       "turnScore": 400,
       "evBank": 400,
-      "evReroll": 631.7,
-      "stderr": 4.94,
+      "evReroll": 623.7,
+      "stderr": 5.66,
       "rerollBetter": true
     },
     {
       "diceRemaining": 5,
       "turnScore": 500,
       "evBank": 500,
-      "evReroll": 715.8,
-      "stderr": 5.44,
+      "evReroll": 706.7,
+      "stderr": 6.09,
       "rerollBetter": true
     },
     {
       "diceRemaining": 5,
       "turnScore": 600,
       "evBank": 600,
-      "evReroll": 802.0,
-      "stderr": 5.61,
+      "evReroll": 784.3,
+      "stderr": 6.57,
       "rerollBetter": true
     },
     {
       "diceRemaining": 5,
       "turnScore": 700,
       "evBank": 700,
-      "evReroll": 899.9,
-      "stderr": 5.93,
+      "evReroll": 892.3,
+      "stderr": 7.06,
       "rerollBetter": true
     },
     {
       "diceRemaining": 5,
       "turnScore": 800,
       "evBank": 800,
-      "evReroll": 991.1,
-      "stderr": 6.15,
+      "evReroll": 956.6,
+      "stderr": 7.34,
       "rerollBetter": true
     },
     {
       "diceRemaining": 5,
       "turnScore": 900,
       "evBank": 900,
-      "evReroll": 1064.2,
-      "stderr": 6.63,
+      "evReroll": 1034.2,
+      "stderr": 6.31,
       "rerollBetter": true
     },
     {
       "diceRemaining": 5,
       "turnScore": 1000,
       "evBank": 1000,
-      "evReroll": 1164.1,
-      "stderr": 6.08,
+      "evReroll": 1129.7,
+      "stderr": 6.07,
       "rerollBetter": true
     },
     {
       "diceRemaining": 5,
       "turnScore": 1100,
       "evBank": 1100,
-      "evReroll": 1249.3,
-      "stderr": 6.19,
+      "evReroll": 1213.2,
+      "stderr": 6.16,
       "rerollBetter": true
     },
     {
       "diceRemaining": 5,
       "turnScore": 1200,
       "evBank": 1200,
-      "evReroll": 1338.5,
-      "stderr": 6.76,
+      "evReroll": 1303.4,
+      "stderr": 6.73,
       "rerollBetter": true
     },
     {
       "diceRemaining": 5,
       "turnScore": 1300,
       "evBank": 1300,
-      "evReroll": 1445.4,
-      "stderr": 6.75,
+      "evReroll": 1410.2,
+      "stderr": 6.71,
       "rerollBetter": true
     },
     {
       "diceRemaining": 5,
       "turnScore": 1400,
       "evBank": 1400,
-      "evReroll": 1524.5,
-      "stderr": 6.99,
+      "evReroll": 1490.8,
+      "stderr": 6.94,
       "rerollBetter": true
     },
     {
       "diceRemaining": 5,
       "turnScore": 1500,
       "evBank": 1500,
-      "evReroll": 1612.0,
-      "stderr": 7.33,
+      "evReroll": 1577.1,
+      "stderr": 7.28,
       "rerollBetter": true
     },
     {
       "diceRemaining": 5,
       "turnScore": 1600,
       "evBank": 1600,
-      "evReroll": 1720.0,
-      "stderr": 7.78,
+      "evReroll": 1684.5,
+      "stderr": 7.73,
       "rerollBetter": true
     },
     {
       "diceRemaining": 5,
       "turnScore": 1700,
       "evBank": 1700,
-      "evReroll": 1811.2,
-      "stderr": 7.69,
+      "evReroll": 1774.0,
+      "stderr": 7.62,
       "rerollBetter": true
     },
     {
       "diceRemaining": 5,
       "turnScore": 1800,
       "evBank": 1800,
-      "evReroll": 1892.0,
-      "stderr": 8.41,
+      "evReroll": 1855.7,
+      "stderr": 8.33,
       "rerollBetter": true
     },
     {
       "diceRemaining": 5,
       "turnScore": 1900,
       "evBank": 1900,
-      "evReroll": 1993.0,
-      "stderr": 8.46,
+      "evReroll": 1957.8,
+      "stderr": 8.38,
       "rerollBetter": true
     },
     {
       "diceRemaining": 5,
       "turnScore": 2000,
       "evBank": 2000,
-      "evReroll": 2079.9,
-      "stderr": 8.91,
+      "evReroll": 2041.8,
+      "stderr": 8.81,
       "rerollBetter": true
     },
     {
       "diceRemaining": 5,
       "turnScore": 2100,
       "evBank": 2100,
-      "evReroll": 2165.2,
-      "stderr": 9.06,
-      "rerollBetter": true
-    },
-    {
-      "diceRemaining": 5,
-      "turnScore": 2200,
-      "evBank": 2200,
-      "evReroll": 2259.3,
-      "stderr": 9.51,
-      "rerollBetter": true
-    },
-    {
-      "diceRemaining": 5,
-      "turnScore": 2300,
-      "evBank": 2300,
-      "evReroll": 2360.9,
-      "stderr": 9.7,
-      "rerollBetter": true
-    },
-    {
-      "diceRemaining": 5,
-      "turnScore": 2400,
-      "evBank": 2400,
-      "evReroll": 2444.2,
-      "stderr": 9.98,
-      "rerollBetter": true
-    },
-    {
-      "diceRemaining": 5,
-      "turnScore": 2500,
-      "evBank": 2500,
-      "evReroll": 2541.4,
-      "stderr": 10.38,
-      "rerollBetter": true
-    },
-    {
-      "diceRemaining": 5,
-      "turnScore": 2600,
-      "evBank": 2600,
-      "evReroll": 2621.9,
-      "stderr": 10.81,
-      "rerollBetter": true
-    },
-    {
-      "diceRemaining": 5,
-      "turnScore": 2700,
-      "evBank": 2700,
-      "evReroll": 2725.6,
-      "stderr": 10.87,
-      "rerollBetter": true
-    },
-    {
-      "diceRemaining": 5,
-      "turnScore": 2800,
-      "evBank": 2800,
-      "evReroll": 2790.1,
-      "stderr": 11.61,
-      "rerollBetter": false
-    },
-    {
-      "diceRemaining": 5,
-      "turnScore": 2900,
-      "evBank": 2900,
-      "evReroll": 2902.6,
-      "stderr": 11.68,
-      "rerollBetter": true
-    },
-    {
-      "diceRemaining": 5,
-      "turnScore": 3000,
-      "evBank": 3000,
-      "evReroll": 3023.8,
-      "stderr": 11.61,
-      "rerollBetter": true
-    },
-    {
-      "diceRemaining": 5,
-      "turnScore": 3100,
-      "evBank": 3100,
-      "evReroll": 3119.7,
-      "stderr": 11.99,
-      "rerollBetter": true
-    },
-    {
-      "diceRemaining": 5,
-      "turnScore": 3200,
-      "evBank": 3200,
-      "evReroll": 3188.3,
-      "stderr": 12.57,
-      "rerollBetter": false
-    },
-    {
-      "diceRemaining": 5,
-      "turnScore": 3300,
-      "evBank": 3300,
-      "evReroll": 3300.5,
-      "stderr": 12.52,
-      "rerollBetter": true
-    },
-    {
-      "diceRemaining": 5,
-      "turnScore": 3400,
-      "evBank": 3400,
-      "evReroll": 3389.8,
-      "stderr": 12.89,
-      "rerollBetter": false
-    },
-    {
-      "diceRemaining": 5,
-      "turnScore": 3500,
-      "evBank": 3500,
-      "evReroll": 3450.2,
-      "stderr": 13.79,
-      "rerollBetter": false
-    },
-    {
-      "diceRemaining": 5,
-      "turnScore": 3600,
-      "evBank": 3600,
-      "evReroll": 3554.2,
-      "stderr": 13.89,
-      "rerollBetter": false
-    },
-    {
-      "diceRemaining": 5,
-      "turnScore": 3700,
-      "evBank": 3700,
-      "evReroll": 3645.0,
-      "stderr": 14.43,
-      "rerollBetter": false
-    },
-    {
-      "diceRemaining": 5,
-      "turnScore": 3800,
-      "evBank": 3800,
-      "evReroll": 3750.6,
-      "stderr": 14.42,
-      "rerollBetter": false
-    },
-    {
-      "diceRemaining": 5,
-      "turnScore": 3900,
-      "evBank": 3900,
-      "evReroll": 3855.1,
-      "stderr": 14.41,
-      "rerollBetter": false
-    },
-    {
-      "diceRemaining": 5,
-      "turnScore": 4000,
-      "evBank": 4000,
-      "evReroll": 3928.1,
-      "stderr": 14.97,
-      "rerollBetter": false
-    },
-    {
-      "diceRemaining": 6,
-      "turnScore": 0,
-      "evBank": 0,
-      "evReroll": 575.9,
-      "stderr": 7.56,
-      "rerollBetter": true
-    },
-    {
-      "diceRemaining": 6,
-      "turnScore": 100,
-      "evBank": 100,
-      "evReroll": 664.7,
-      "stderr": 8.12,
-      "rerollBetter": true
-    },
-    {
-      "diceRemaining": 6,
-      "turnScore": 200,
-      "evBank": 200,
-      "evReroll": 742.4,
-      "stderr": 7.83,
-      "rerollBetter": true
-    },
-    {
-      "diceRemaining": 6,
-      "turnScore": 300,
-      "evBank": 300,
-      "evReroll": 846.0,
-      "stderr": 8.19,
-      "rerollBetter": true
-    },
-    {
-      "diceRemaining": 6,
-      "turnScore": 400,
-      "evBank": 400,
-      "evReroll": 933.2,
-      "stderr": 7.94,
-      "rerollBetter": true
-    },
-    {
-      "diceRemaining": 6,
-      "turnScore": 500,
-      "evBank": 500,
-      "evReroll": 1024.1,
-      "stderr": 8.56,
-      "rerollBetter": true
-    },
-    {
-      "diceRemaining": 6,
-      "turnScore": 600,
-      "evBank": 600,
-      "evReroll": 1102.1,
-      "stderr": 8.64,
-      "rerollBetter": true
-    },
-    {
-      "diceRemaining": 6,
-      "turnScore": 700,
-      "evBank": 700,
-      "evReroll": 1205.0,
-      "stderr": 8.42,
-      "rerollBetter": true
-    },
-    {
-      "diceRemaining": 6,
-      "turnScore": 800,
-      "evBank": 800,
-      "evReroll": 1284.5,
+      "evReroll": 2130.3,
       "stderr": 8.94,
       "rerollBetter": true
     },
     {
+      "diceRemaining": 5,
+      "turnScore": 2200,
+      "evBank": 2200,
+      "evReroll": 2223.2,
+      "stderr": 9.33,
+      "rerollBetter": true
+    },
+    {
+      "diceRemaining": 5,
+      "turnScore": 2300,
+      "evBank": 2300,
+      "evReroll": 2325.1,
+      "stderr": 9.57,
+      "rerollBetter": true
+    },
+    {
+      "diceRemaining": 5,
+      "turnScore": 2400,
+      "evBank": 2400,
+      "evReroll": 2411.1,
+      "stderr": 9.83,
+      "rerollBetter": true
+    },
+    {
+      "diceRemaining": 5,
+      "turnScore": 2500,
+      "evBank": 2500,
+      "evReroll": 2505.9,
+      "stderr": 10.29,
+      "rerollBetter": true
+    },
+    {
+      "diceRemaining": 5,
+      "turnScore": 2600,
+      "evBank": 2600,
+      "evReroll": 2586.1,
+      "stderr": 10.72,
+      "rerollBetter": false
+    },
+    {
+      "diceRemaining": 5,
+      "turnScore": 2700,
+      "evBank": 2700,
+      "evReroll": 2691.9,
+      "stderr": 10.78,
+      "rerollBetter": false
+    },
+    {
+      "diceRemaining": 5,
+      "turnScore": 2800,
+      "evBank": 2800,
+      "evReroll": 2755.9,
+      "stderr": 11.53,
+      "rerollBetter": false
+    },
+    {
+      "diceRemaining": 5,
+      "turnScore": 2900,
+      "evBank": 2900,
+      "evReroll": 2867.7,
+      "stderr": 11.61,
+      "rerollBetter": false
+    },
+    {
+      "diceRemaining": 5,
+      "turnScore": 3000,
+      "evBank": 3000,
+      "evReroll": 2987.9,
+      "stderr": 11.54,
+      "rerollBetter": false
+    },
+    {
+      "diceRemaining": 5,
+      "turnScore": 3100,
+      "evBank": 3100,
+      "evReroll": 3084.7,
+      "stderr": 11.92,
+      "rerollBetter": false
+    },
+    {
+      "diceRemaining": 5,
+      "turnScore": 3200,
+      "evBank": 3200,
+      "evReroll": 3153.1,
+      "stderr": 12.49,
+      "rerollBetter": false
+    },
+    {
+      "diceRemaining": 5,
+      "turnScore": 3300,
+      "evBank": 3300,
+      "evReroll": 3265.9,
+      "stderr": 12.45,
+      "rerollBetter": false
+    },
+    {
+      "diceRemaining": 5,
+      "turnScore": 3400,
+      "evBank": 3400,
+      "evReroll": 3354.9,
+      "stderr": 12.81,
+      "rerollBetter": false
+    },
+    {
+      "diceRemaining": 5,
+      "turnScore": 3500,
+      "evBank": 3500,
+      "evReroll": 3415.6,
+      "stderr": 13.7,
+      "rerollBetter": false
+    },
+    {
+      "diceRemaining": 5,
+      "turnScore": 3600,
+      "evBank": 3600,
+      "evReroll": 3519.9,
+      "stderr": 13.8,
+      "rerollBetter": false
+    },
+    {
+      "diceRemaining": 5,
+      "turnScore": 3700,
+      "evBank": 3700,
+      "evReroll": 3611.3,
+      "stderr": 14.35,
+      "rerollBetter": false
+    },
+    {
+      "diceRemaining": 5,
+      "turnScore": 3800,
+      "evBank": 3800,
+      "evReroll": 3715.3,
+      "stderr": 14.34,
+      "rerollBetter": false
+    },
+    {
+      "diceRemaining": 5,
+      "turnScore": 3900,
+      "evBank": 3900,
+      "evReroll": 3821.0,
+      "stderr": 14.33,
+      "rerollBetter": false
+    },
+    {
+      "diceRemaining": 5,
+      "turnScore": 4000,
+      "evBank": 4000,
+      "evReroll": 3893.0,
+      "stderr": 14.88,
+      "rerollBetter": false
+    },
+    {
+      "diceRemaining": 6,
+      "turnScore": 0,
+      "evBank": 0,
+      "evReroll": 584.1,
+      "stderr": 7.95,
+      "rerollBetter": true
+    },
+    {
+      "diceRemaining": 6,
+      "turnScore": 100,
+      "evBank": 100,
+      "evReroll": 659.3,
+      "stderr": 7.9,
+      "rerollBetter": true
+    },
+    {
+      "diceRemaining": 6,
+      "turnScore": 200,
+      "evBank": 200,
+      "evReroll": 750.0,
+      "stderr": 8.1,
+      "rerollBetter": true
+    },
+    {
+      "diceRemaining": 6,
+      "turnScore": 300,
+      "evBank": 300,
+      "evReroll": 837.7,
+      "stderr": 8.39,
+      "rerollBetter": true
+    },
+    {
+      "diceRemaining": 6,
+      "turnScore": 400,
+      "evBank": 400,
+      "evReroll": 917.9,
+      "stderr": 8.17,
+      "rerollBetter": true
+    },
+    {
+      "diceRemaining": 6,
+      "turnScore": 500,
+      "evBank": 500,
+      "evReroll": 1014.5,
+      "stderr": 8.87,
+      "rerollBetter": true
+    },
+    {
+      "diceRemaining": 6,
+      "turnScore": 600,
+      "evBank": 600,
+      "evReroll": 1084.1,
+      "stderr": 8.9,
+      "rerollBetter": true
+    },
+    {
+      "diceRemaining": 6,
+      "turnScore": 700,
+      "evBank": 700,
+      "evReroll": 1191.0,
+      "stderr": 9.41,
+      "rerollBetter": true
+    },
+    {
+      "diceRemaining": 6,
+      "turnScore": 800,
+      "evBank": 800,
+      "evReroll": 1259.8,
+      "stderr": 8.99,
+      "rerollBetter": true
+    },
+    {
       "diceRemaining": 6,
       "turnScore": 900,
       "evBank": 900,
-      "evReroll": 1386.4,
-      "stderr": 8.71,
+      "evReroll": 1356.4,
+      "stderr": 8.74,
       "rerollBetter": true
     },
     {
       "diceRemaining": 6,
       "turnScore": 1000,
       "evBank": 1000,
-      "evReroll": 1473.6,
-      "stderr": 8.78,
+      "evReroll": 1452.7,
+      "stderr": 8.82,
       "rerollBetter": true
     },
     {
       "diceRemaining": 6,
       "turnScore": 1100,
       "evBank": 1100,
-      "evReroll": 1572.2,
-      "stderr": 9.36,
+      "evReroll": 1545.9,
+      "stderr": 9.14,
       "rerollBetter": true
     },
     {
       "diceRemaining": 6,
       "turnScore": 1200,
       "evBank": 1200,
-      "evReroll": 1651.0,
-      "stderr": 9.39,
+      "evReroll": 1645.8,
+      "stderr": 9.43,
       "rerollBetter": true
     },
     {
       "diceRemaining": 6,
       "turnScore": 1300,
       "evBank": 1300,
-      "evReroll": 1759.7,
-      "stderr": 9.78,
+      "evReroll": 1741.5,
+      "stderr": 9.67,
       "rerollBetter": true
     },
     {
       "diceRemaining": 6,
       "turnScore": 1400,
       "evBank": 1400,
-      "evReroll": 1823.0,
-      "stderr": 9.77,
+      "evReroll": 1809.8,
+      "stderr": 9.24,
       "rerollBetter": true
     },
     {
       "diceRemaining": 6,
       "turnScore": 1500,
       "evBank": 1500,
-      "evReroll": 1944.2,
+      "evReroll": 1918.0,
+      "stderr": 9.94,
+      "rerollBetter": true
+    },
+    {
+      "diceRemaining": 6,
+      "turnScore": 1600,
+      "evBank": 1600,
+      "evReroll": 2015.2,
+      "stderr": 9.89,
+      "rerollBetter": true
+    },
+    {
+      "diceRemaining": 6,
+      "turnScore": 1700,
+      "evBank": 1700,
+      "evReroll": 2113.1,
       "stderr": 10.24,
       "rerollBetter": true
     },
     {
       "diceRemaining": 6,
-      "turnScore": 1600,
-      "evBank": 1600,
-      "evReroll": 2034.4,
-      "stderr": 9.76,
-      "rerollBetter": true
-    },
-    {
-      "diceRemaining": 6,
-      "turnScore": 1700,
-      "evBank": 1700,
-      "evReroll": 2131.2,
-      "stderr": 10.09,
-      "rerollBetter": true
-    },
-    {
-      "diceRemaining": 6,
       "turnScore": 1800,
       "evBank": 1800,
-      "evReroll": 2209.5,
-      "stderr": 10.43,
+      "evReroll": 2190.8,
+      "stderr": 10.31,
       "rerollBetter": true
     },
     {
       "diceRemaining": 6,
       "turnScore": 1900,
       "evBank": 1900,
-      "evReroll": 2316.7,
-      "stderr": 10.75,
+      "evReroll": 2297.9,
+      "stderr": 10.8,
       "rerollBetter": true
     },
     {
       "diceRemaining": 6,
       "turnScore": 2000,
       "evBank": 2000,
-      "evReroll": 2425.7,
-      "stderr": 10.99,
+      "evReroll": 2408.3,
+      "stderr": 11.12,
       "rerollBetter": true
     },
     {
       "diceRemaining": 6,
       "turnScore": 2100,
       "evBank": 2100,
-      "evReroll": 2488.5,
-      "stderr": 11.4,
+      "evReroll": 2466.9,
+      "stderr": 11.16,
       "rerollBetter": true
     },
     {
       "diceRemaining": 6,
       "turnScore": 2200,
       "evBank": 2200,
-      "evReroll": 2588.3,
-      "stderr": 11.42,
+      "evReroll": 2583.1,
+      "stderr": 11.34,
       "rerollBetter": true
     },
     {
       "diceRemaining": 6,
       "turnScore": 2300,
       "evBank": 2300,
-      "evReroll": 2681.8,
-      "stderr": 11.6,
+      "evReroll": 2658.5,
+      "stderr": 11.64,
       "rerollBetter": true
     },
     {
       "diceRemaining": 6,
       "turnScore": 2400,
       "evBank": 2400,
-      "evReroll": 2771.2,
-      "stderr": 12.25,
+      "evReroll": 2765.7,
+      "stderr": 12.15,
       "rerollBetter": true
     },
     {
       "diceRemaining": 6,
       "turnScore": 2500,
       "evBank": 2500,
-      "evReroll": 2869.7,
-      "stderr": 12.15,
+      "evReroll": 2848.0,
+      "stderr": 12.29,
       "rerollBetter": true
     },
     {
       "diceRemaining": 6,
       "turnScore": 2600,
       "evBank": 2600,
-      "evReroll": 2962.9,
-      "stderr": 12.63,
+      "evReroll": 2946.5,
+      "stderr": 9.75,
       "rerollBetter": true
     },
     {
       "diceRemaining": 6,
       "turnScore": 2700,
       "evBank": 2700,
-      "evReroll": 3048.5,
-      "stderr": 13.11,
+      "evReroll": 3038.0,
+      "stderr": 9.65,
       "rerollBetter": true
     },
     {
       "diceRemaining": 6,
       "turnScore": 2800,
       "evBank": 2800,
-      "evReroll": 3153.3,
-      "stderr": 13.02,
+      "evReroll": 3142.2,
+      "stderr": 9.75,
       "rerollBetter": true
     },
     {
       "diceRemaining": 6,
       "turnScore": 2900,
       "evBank": 2900,
-      "evReroll": 3259.3,
-      "stderr": 13.08,
+      "evReroll": 3243.9,
+      "stderr": 9.86,
       "rerollBetter": true
     },
     {
       "diceRemaining": 6,
       "turnScore": 3000,
       "evBank": 3000,
-      "evReroll": 3333.3,
-      "stderr": 13.49,
+      "evReroll": 3331.3,
+      "stderr": 10.3,
       "rerollBetter": true
     },
     {
@@ -2018,8 +2325,20 @@ window.FARKLE_DATA = {
   ],
   "strategyComparison": [
     {
-      "name": "Optimal (six-roll hold-back)",
-      "meanTurnScore": 579.0,
+      "name": "Optimal (full table)",
+      "meanTurnScore": 586.2,
+      "thresholds": {
+        "1": 300,
+        "2": 241,
+        "3": 414,
+        "4": 977,
+        "5": 2615,
+        "6": 16824
+      }
+    },
+    {
+      "name": "Six-roll hold-back only",
+      "meanTurnScore": 581.5,
       "thresholds": {
         "1": 302,
         "2": 246,
@@ -2031,7 +2350,7 @@ window.FARKLE_DATA = {
     },
     {
       "name": "Always take max (no hold-back)",
-      "meanTurnScore": 544.0,
+      "meanTurnScore": 542.1,
       "thresholds": {
         "1": 286,
         "2": 233,
@@ -2043,7 +2362,7 @@ window.FARKLE_DATA = {
     },
     {
       "name": "Flat threshold 300",
-      "meanTurnScore": 488.7,
+      "meanTurnScore": 488.9,
       "thresholds": {
         "1": 300,
         "2": 300,
@@ -2055,7 +2374,7 @@ window.FARKLE_DATA = {
     },
     {
       "name": "Bank ASAP (threshold 1)",
-      "meanTurnScore": 421.1,
+      "meanTurnScore": 421.4,
       "thresholds": {
         "1": 1,
         "2": 1,
@@ -2067,14 +2386,14 @@ window.FARKLE_DATA = {
     },
     {
       "name": "Naive uniform hold-back (target=2)",
-      "meanTurnScore": 529.2,
+      "meanTurnScore": 536.2,
       "thresholds": {
         "1": 285,
         "2": 233,
-        "3": 352,
+        "3": 357,
         "4": 996,
-        "5": 2957,
-        "6": 18010
+        "5": 3127,
+        "6": 18114
       }
     }
   ]

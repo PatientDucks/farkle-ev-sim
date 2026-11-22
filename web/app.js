@@ -30,12 +30,12 @@
   function renderMethodologyLine() {
     const t = data.generatedAtTrials;
     document.querySelector('[data-field="methodology-line"]').textContent =
-      `Thresholds: ${t.optimizeTrials.toLocaleString()} trials/eval x ${t.optimizeRounds} rounds, binary search. ` +
+      `Thresholds: ${t.thresholdTrials.toLocaleString()} trials/eval x ${t.thresholdRounds} rounds, binary search. ` +
+      `Hold-back table: ${t.tableTrials.toLocaleString()} trials/state x ${t.outerRounds} outer rounds. ` +
       `Decision grid: ${t.gridTrials.toLocaleString()} trials/point. Strategy comparison: ${t.summaryTrials.toLocaleString()} trials/strategy.`;
   }
 
   function renderHoldBackNote() {
-    const maxLoose = data.sixRollHoldBackMaxLoose;
     const optimal = data.strategyComparison.find((s) => s.name.startsWith("Optimal"));
     const alwaysMax = data.strategyComparison.find((s) => s.name.startsWith("Always take max"));
     const el = document.querySelector('[data-field="hold-back-note"]');
@@ -44,12 +44,52 @@
       return;
     }
     const pct = (((optimal.meanTurnScore - alwaysMax.meanTurnScore) / alwaysMax.meanTurnScore) * 100).toFixed(1);
+    const holdBackCount = data.holdBackTable.filter((row) => row.holdsBack).length;
     el.textContent =
-      "On a fresh six-dice roll (the start of a turn, or right after hot dice) where the only scoring dice are " +
-      "loose 1s and 5s (no 3-of-a-kind or better), the optimal play is to lock just your single most valuable " +
-      `loose die and reroll the rest, up to ${maxLoose} loose singles. This beats always taking the maximum ` +
-      `score by ${pct}% in points per turn. It's specific to this exact situation: the same move tested on ` +
-      "smaller rerolls (after dice are already locked away) does not hold up; see README for the full comparison.";
+      "Every roll with no 3-of-a-kind or better (just loose 1s/5s plus junk dice) was checked directly: for " +
+      "each combination of roll size and loose-singles count, is it better to lock everything, or hold some " +
+      `back for another roll? Hold-back wins in ${holdBackCount} of ${data.holdBackTable.length} such states ` +
+      `(see the breakdown below), almost all of them rerolls of 4, 5, or 6 dice. Overall this beats always ` +
+      `taking the maximum score by ${pct}% in points per turn.`;
+  }
+
+  function renderHoldbackGrid() {
+    const container = document.querySelector('[data-field="holdback-grid"]');
+    const byTotalDice = new Map();
+    for (const row of data.holdBackTable) {
+      if (!byTotalDice.has(row.totalDice)) byTotalDice.set(row.totalDice, []);
+      byTotalDice.get(row.totalDice).push(row);
+    }
+
+    for (const totalDice of [...byTotalDice.keys()].sort((a, b) => a - b)) {
+      const rows = byTotalDice.get(totalDice).sort((a, b) => a.looseTotal - b.looseTotal || a.looseOnes - b.looseOnes);
+
+      const card = document.createElement("div");
+      card.className = "holdback-card";
+
+      const title = document.createElement("div");
+      title.className = "holdback-title";
+      title.textContent = totalDice === 6 ? "Rerolling 6 dice (fresh / hot dice)" : `Rerolling ${totalDice} ${totalDice === 1 ? "die" : "dice"}`;
+      card.appendChild(title);
+
+      const table = document.createElement("table");
+      table.className = "holdback-table";
+      const thead = document.createElement("thead");
+      thead.innerHTML = "<tr><th>1s</th><th>5s</th><th>Lock</th><th>Reroll</th></tr>";
+      const tbody = document.createElement("tbody");
+      for (const row of rows) {
+        const tr = document.createElement("tr");
+        if (row.holdsBack) tr.className = "holds-back";
+        const declineCount = row.looseTotal - row.lockCount;
+        tr.innerHTML =
+          `<td>${row.looseOnes}</td><td>${row.looseFives}</td><td>${row.lockCount}</td>` +
+          `<td>${declineCount > 0 ? declineCount : "-"}</td>`;
+        tbody.appendChild(tr);
+      }
+      table.append(thead, tbody);
+      card.appendChild(table);
+      container.appendChild(card);
+    }
   }
 
   function renderStrategyTiles() {
@@ -338,6 +378,7 @@
 
   renderMethodologyLine();
   renderHoldBackNote();
+  renderHoldbackGrid();
   renderStrategyTiles();
   renderThresholdsTable();
   renderEvCharts();
