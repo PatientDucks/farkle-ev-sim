@@ -34,6 +34,24 @@
       `Decision grid: ${t.gridTrials.toLocaleString()} trials/point. Strategy comparison: ${t.summaryTrials.toLocaleString()} trials/strategy.`;
   }
 
+  function renderHoldBackNote() {
+    const maxLoose = data.sixRollHoldBackMaxLoose;
+    const optimal = data.strategyComparison.find((s) => s.name.startsWith("Optimal"));
+    const alwaysMax = data.strategyComparison.find((s) => s.name.startsWith("Always take max"));
+    const el = document.querySelector('[data-field="hold-back-note"]');
+    if (!optimal || !alwaysMax) {
+      el.textContent = "";
+      return;
+    }
+    const pct = (((optimal.meanTurnScore - alwaysMax.meanTurnScore) / alwaysMax.meanTurnScore) * 100).toFixed(1);
+    el.textContent =
+      "On a fresh six-dice roll (the start of a turn, or right after hot dice) where the only scoring dice are " +
+      "loose 1s and 5s (no 3-of-a-kind or better), the optimal play is to lock just your single most valuable " +
+      `loose die and reroll the rest, up to ${maxLoose} loose singles. This beats always taking the maximum ` +
+      `score by ${pct}% in points per turn. It's specific to this exact situation: the same move tested on ` +
+      "smaller rerolls (after dice are already locked away) does not hold up; see README for the full comparison.";
+  }
+
   function renderStrategyTiles() {
     const container = document.querySelector('[data-field="strategy-tiles"]');
     const strategies = data.strategyComparison;
@@ -319,6 +337,7 @@
   }
 
   renderMethodologyLine();
+  renderHoldBackNote();
   renderStrategyTiles();
   renderThresholdsTable();
   renderEvCharts();
