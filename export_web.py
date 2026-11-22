@@ -74,6 +74,10 @@ def main() -> None:
     policy = optimize_thresholds(n_trials=optimize_trials, rounds=optimize_rounds)
     print(f"  thresholds: {policy.thresholds}  ({time.time() - t0:.1f}s)")
 
+    print("Optimizing a 'hold back loose singles' policy for comparison (hold_back_target=2)...")
+    hold_back_policy = optimize_thresholds(n_trials=optimize_trials, rounds=optimize_rounds, hold_back_target=2)
+    print(f"  thresholds: {hold_back_policy.thresholds}  ({time.time() - t0:.1f}s)")
+
     with ProcessPoolExecutor() as executor:
         t1 = time.time()
         print(f"Building decision grid ({grid_trials:,} trials/point)...")
@@ -86,6 +90,7 @@ def main() -> None:
             "Optimal (this sim)": policy,
             "Flat threshold 300": ThresholdPolicy({d: 300 for d in range(1, 7)}),
             "Bank ASAP (threshold 1)": ThresholdPolicy({d: 1 for d in range(1, 7)}),
+            "Hold back loose singles (target=2)": hold_back_policy,
         }
         strategy_results = []
         for name, strat_policy in strategy_policies.items():

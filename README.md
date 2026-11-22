@@ -84,9 +84,24 @@ A few things worth noting:
 
   | Strategy | Points/turn | vs. optimal |
   |---|---|---|
-  | Optimal (per-dice-remaining thresholds above) | 544 | baseline |
-  | Flat threshold of 300, regardless of dice remaining | 489 | -10.0% |
-  | Bank after the very first scoring roll | 420 | -22.7% |
+  | Optimal (per-dice-remaining thresholds above) | 545 | baseline |
+  | Flat threshold of 300, regardless of dice remaining | 488 | -10.5% |
+  | Bank after the very first scoring roll | 421 | -22.8% |
+  | Hold back loose singles to keep more dice live (see below) | 506 | -7.2% |
+
+- **Declining a loose single to "keep more dice live" is also worse, not
+  better.** Farkle lets you set aside fewer than all available scoring dice
+  on a given roll (e.g. leaving a lone 5 unbanked instead of scoring it, so
+  you reroll it along with the non-scoring dice, hoping for a bigger combo).
+  It's a real option, so this project tested it: a policy that declines
+  cheap loose singles whenever locking everything would leave very few dice
+  behind was optimized the same way as the main thresholds, then compared
+  against always taking the max. The result was consistent across every
+  target tried: declining monotonically *lowers* expected points per turn
+  (506 at a moderate hold-back target, dropping further the more aggressively
+  it declines). The guaranteed points from a loose single are worth more
+  than the extra safety from one more die in the cup. Always taking the
+  maximum score from every roll is the right call under this ruleset.
 
 ## Running it
 
@@ -106,7 +121,7 @@ inlined as a `<script>` rather than fetched, so `file://` works fine).
 ```
 farkle/
 ├── rules.py       scoring engine, the ruleset lives here
-├── policy.py      ThresholdPolicy: "reroll while turn_score < threshold[dice_remaining]"
+├── policy.py      ThresholdPolicy: reroll-vs-bank thresholds, plus the loose-singles hold-back choice
 ├── simulate.py     Monte Carlo turn simulation under a given policy
 ├── optimize.py      binary-search threshold finder (the "optimizer")
 └── stats.py           exact bust probability / expected score via full enumeration
@@ -122,13 +137,11 @@ web/
 
 ## Scope & known simplifications
 
-- **The decision modeled is reroll-vs-bank, assuming you always take the
-  maximum score available from a roll.** Real Farkle also lets you
-  deliberately bank *fewer* than all available scoring dice (e.g. holding
-  back a lone 5 instead of scoring it, to keep more dice in play for a
-  shot at a bigger combo). That's a real but much rarer tactical
-  consideration; this project focuses on the primary, much more commonly
-  discussed decision.
+- **3+-of-a-kind groups and whole-roll special combos (straight, three
+  pairs, two triplets) are always locked in full if rolled, not individually
+  declinable.** The loose-singles hold-back decision above *is* modeled;
+  breaking up an already-formed group to decline part of it is a much
+  smaller and rarer consideration that isn't.
 - **Entry threshold (500) and the 10,000-point win condition are not
   modeled.** The optimizer treats every banked point as equally valuable,
   which is the right objective for "maximize expected points per turn in

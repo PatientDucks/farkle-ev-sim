@@ -2018,7 +2018,7 @@ window.FARKLE_DATA = {
   "strategyComparison": [
     {
       "name": "Optimal (this sim)",
-      "meanTurnScore": 543.7,
+      "meanTurnScore": 543.4,
       "thresholds": {
         "1": 287,
         "2": 237,
@@ -2030,7 +2030,7 @@ window.FARKLE_DATA = {
     },
     {
       "name": "Flat threshold 300",
-      "meanTurnScore": 489.2,
+      "meanTurnScore": 488.3,
       "thresholds": {
         "1": 300,
         "2": 300,
@@ -2042,7 +2042,7 @@ window.FARKLE_DATA = {
     },
     {
       "name": "Bank ASAP (threshold 1)",
-      "meanTurnScore": 420.3,
+      "meanTurnScore": 421.0,
       "thresholds": {
         "1": 1,
         "2": 1,
@@ -2050,6 +2050,18 @@ window.FARKLE_DATA = {
         "4": 1,
         "5": 1,
         "6": 1
+      }
+    },
+    {
+      "name": "Hold back loose singles (target=2)",
+      "meanTurnScore": 505.8,
+      "thresholds": {
+        "1": 276,
+        "2": 142,
+        "3": 296,
+        "4": 892,
+        "5": 2768,
+        "6": 17577
       }
     }
   ]

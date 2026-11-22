@@ -53,7 +53,7 @@
       const delta = document.createElement("span");
       delta.className = "delta";
       if (s.meanTurnScore === best) {
-        delta.textContent = "best of the three";
+        delta.textContent = "best of the group";
       } else {
         const pct = ((s.meanTurnScore - best) / best) * 100;
         delta.textContent = `${pct.toFixed(1)}% vs optimal`;

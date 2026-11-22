@@ -5,7 +5,7 @@ from __future__ import annotations
 import random
 
 from .policy import ThresholdPolicy
-from .rules import best_score
+from .rules import decompose_roll
 
 
 def simulate_from_state(
@@ -21,12 +21,14 @@ def simulate_from_state(
     matching the real Farkle rule that a Farkle loses the entire turn).
     """
     while True:
-        dice = tuple(rng.randint(1, 6) for _ in range(dice_remaining))
-        score, used = best_score(dice)
-        if used == 0:
+        rolled_count = dice_remaining
+        dice = tuple(rng.randint(1, 6) for _ in range(rolled_count))
+        decomposition = decompose_roll(dice)
+        if decomposition.is_farkle:
             return 0
+        score, used = policy.resolve_roll(decomposition, rolled_count)
         turn_score += score
-        dice_remaining = 6 if used == dice_remaining else dice_remaining - used
+        dice_remaining = 6 if used == rolled_count else rolled_count - used
         if not policy.should_reroll(turn_score, dice_remaining):
             return turn_score
 

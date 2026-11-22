@@ -4,7 +4,7 @@ import unittest
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from farkle.rules import best_score  # noqa: E402
+from farkle.rules import best_score, decompose_roll  # noqa: E402
 
 
 class TestBestScore(unittest.TestCase):
@@ -65,6 +65,45 @@ class TestBestScore(unittest.TestCase):
     def test_partial_reroll_subset_scores_independently_of_full_roll(self):
         # Rerolling just 2 dice should never trigger whole-roll special combos.
         self.assertEqual(best_score((2, 2)), (0, 0))
+
+
+class TestDecomposeRoll(unittest.TestCase):
+    def test_farkle_has_no_components(self):
+        d = decompose_roll((2, 2, 3, 4, 6, 6))
+        self.assertTrue(d.is_farkle)
+
+    def test_separates_forced_group_from_loose_singles(self):
+        # three 2s (forced) + a loose 1 + a loose 5 + a non-scoring 6
+        d = decompose_roll((2, 2, 2, 1, 5, 6))
+        self.assertEqual(d.forced_score, 200)
+        self.assertEqual(d.forced_dice_used, 3)
+        self.assertEqual(d.loose_ones, 1)
+        self.assertEqual(d.loose_fives, 1)
+        self.assertEqual(d.non_scoring_dice, 1)
+        self.assertFalse(d.is_farkle)
+
+    def test_four_loose_ones_all_counted_as_loose_not_forced(self):
+        # Four 1s should resolve as four-of-a-kind (forced), not loose singles.
+        d = decompose_roll((1, 1, 1, 1, 2, 3))
+        self.assertEqual(d.forced_dice_used, 4)
+        self.assertEqual(d.loose_ones, 0)
+
+    def test_special_combo_leaves_no_loose_components(self):
+        d = decompose_roll((1, 2, 3, 4, 5, 6))
+        self.assertEqual(d.special_score, 1500)
+        self.assertEqual(d.special_dice_used, 6)
+        self.assertEqual(d.loose_ones, 0)
+        self.assertEqual(d.loose_fives, 0)
+
+    def test_best_score_matches_decomposition_sum(self):
+        for dice in [(1, 1, 5, 2, 2, 2), (1, 2, 3, 4, 5, 6), (3, 3, 3, 3, 5, 5), (6, 6, 6, 2, 2, 2)]:
+            d = decompose_roll(dice)
+            score, used = best_score(dice)
+            if d.special_dice_used:
+                self.assertEqual((score, used), (d.special_score, d.special_dice_used))
+            else:
+                self.assertEqual(score, d.forced_score + d.loose_ones * 100 + d.loose_fives * 50)
+                self.assertEqual(used, d.forced_dice_used + d.loose_ones + d.loose_fives)
 
 
 if __name__ == "__main__":

@@ -27,14 +27,16 @@ SEARCH_HI = 50_000.0
 BISECTION_ITERS = 22
 
 
-def _find_threshold(dice_remaining: int, base_thresholds: dict[int, int], n_trials: int, seed: int) -> float:
+def _find_threshold(
+    dice_remaining: int, base_thresholds: dict[int, int], hold_back_target: int, n_trials: int, seed: int
+) -> float:
     rng = random.Random(seed)
     lo, hi = SEARCH_LO, SEARCH_HI
     for _ in range(BISECTION_ITERS):
         mid = (lo + hi) / 2
         trial_thresholds = dict(base_thresholds)
         trial_thresholds[dice_remaining] = int(round(mid))
-        policy = ThresholdPolicy(trial_thresholds)
+        policy = ThresholdPolicy(trial_thresholds, hold_back_target=hold_back_target)
         ev_reroll = ev_of_reroll(int(round(mid)), dice_remaining, policy, n_trials, rng)
         if ev_reroll > mid:
             lo = mid  # worth continuing even here -> true threshold is higher
@@ -48,15 +50,16 @@ def optimize_thresholds(
     rounds: int = 5,
     seed: int = 42,
     max_workers: int | None = None,
+    hold_back_target: int = 0,
 ) -> ThresholdPolicy:
     thresholds = dict(DEFAULT_POLICY.thresholds)
 
     with ProcessPoolExecutor(max_workers=max_workers) as executor:
         for round_i in range(rounds):
             jobs = {
-                d: executor.submit(_find_threshold, d, thresholds, n_trials, seed + round_i * 10 + d)
+                d: executor.submit(_find_threshold, d, thresholds, hold_back_target, n_trials, seed + round_i * 10 + d)
                 for d in range(1, 7)
             }
             thresholds = {d: int(round(job.result())) for d, job in jobs.items()}
 
-    return ThresholdPolicy(thresholds)
+    return ThresholdPolicy(thresholds, hold_back_target=hold_back_target)
